@@ -37,3 +37,15 @@ public protocol VMStack: class {
     func integer(at position: Int) -> Int?
     func float(at position: Int) -> Float?
 }
+
+infix operator <- { associativity left precedence 140 }
+
+public func <- (stack: VMStack, x: Int) -> VMStack {
+    stack.push(x)
+    return stack
+}
+
+public func <- (stack: VMStack, x: Float) -> VMStack {
+    stack.push(x)
+    return stack
+}
