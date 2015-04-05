@@ -107,13 +107,34 @@ class SquirrelVMTests: XCTestCase {
     }
 
     
+    // MARK: - stack strings
+    func testThat_canReadPushedStringByForwardIndex() {
+        squirrel.stack <- "first"
+        squirrel.stack <- "second"
+        XCTAssertEqual(squirrel.stack.string(at: 1)!, "first",
+            "Should be able to read string values by passing forward (positive) indexes")
+    }
+    
+    func testThat_canReadPushedStringByReverseIndex() {
+        squirrel.stack <- "first"
+        squirrel.stack <- "second"
+        XCTAssertEqual(squirrel.stack.string(at: -1)!, "second",
+            "Should be able to read string values by passing reverse (negative) indexes")
+    }
+    
+    func testThat_canReadPushedUnicodeString() {
+        squirrel.stack <- "текст" // <- "text" (in Cyrillic)
+        XCTAssertEqual(squirrel.stack.string(at: 1)!, "текст",
+            "Should be able to read unicode string values")
+    }
+    
+    
     // MARK: - stack integer to float conversion
     func testThat_integersAreConvertibleToFloats() {
         squirrel.stack <- 1
         XCTAssertEqual(squirrel.stack.float(at: 1)!, 1.0,
             "Stack should be able to convert integer values to floats")
     }
-    
     
     func testThat_floatsAreConvertibleToIntegers() {
         squirrel.stack <- 1.0

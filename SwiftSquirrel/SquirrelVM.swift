@@ -75,6 +75,12 @@ public class SquirrelVM {
             sq_pushbool(vm, ((x == true) ? SQBool(SQTrue) : SQBool(SQFalse)))
         }
         
+        private func push(x: String) {
+            let cString = (x as NSString).UTF8String
+            let length = strlen(cString)
+            sq_pushstring(vm, cString, SQInteger(length))
+        }
+        
         
         private subscript(position: Int) -> SQValue {
             switch (sq_gettype(vm, SQInteger(position)).value) {
@@ -93,6 +99,16 @@ public class SquirrelVM {
                 var value: SQBool = 0
                 sq_getbool(vm, SQInteger(position), &value)
                 return (value == SQBool(SQTrue)) ? .Bool(true) : .Bool(false)
+                
+            case OT_STRING.value:
+                var cString: UnsafePointer<SQChar> = nil
+                sq_getstring(vm, SQInteger(position), &cString)
+                if let string = String.fromCString(cString) {
+                    return .String(string)
+                }
+                else {
+                    return .Null
+                }
                 
             default:
                 return .Null
@@ -141,6 +157,20 @@ public class SquirrelVM {
             
             switch (self[position]) {
             case let .Bool(value):
+                result = value
+                
+            default:
+                result = nil
+            }
+            
+            return result
+        }
+        
+        private func string(at position: Int) -> String? {
+            var result: String? = nil
+            
+            switch (self[position]) {
+            case let .String(value):
                 result = value
                 
             default:
