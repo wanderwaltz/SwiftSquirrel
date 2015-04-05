@@ -71,6 +71,10 @@ public class SquirrelVM {
             sq_pushfloat(vm, SQFloat(x))
         }
         
+        private func push(x: Bool) {
+            sq_pushbool(vm, ((x == true) ? SQBool(SQTrue) : SQBool(SQFalse)))
+        }
+        
         
         private subscript(position: Int) -> SQValue {
             switch (sq_gettype(vm, SQInteger(position)).value) {
@@ -78,15 +82,20 @@ public class SquirrelVM {
             case OT_INTEGER.value:
                 var value: SQInteger = 0
                 sq_getinteger(vm, SQInteger(position), &value)
-                return SQValue.Int(Int(value))
+                return .Int(Int(value))
                 
             case OT_FLOAT.value:
                 var value: SQFloat = 0
                 sq_getfloat(vm, SQInteger(position), &value)
-                return SQValue.Float(Float(value))
+                return .Float(Float(value))
+                
+            case OT_BOOL.value:
+                var value: SQBool = 0
+                sq_getbool(vm, SQInteger(position), &value)
+                return (value == SQBool(SQTrue)) ? .Bool(true) : .Bool(false)
                 
             default:
-                return SQValue.Null
+                return .Null
             }
         }
         
@@ -118,6 +127,20 @@ public class SquirrelVM {
                 result = Float(value)
                 
             case let .Float(value):
+                result = value
+                
+            default:
+                result = nil
+            }
+            
+            return result
+        }
+        
+        private func bool(at position: Int) -> Bool? {
+            var result: Bool? = nil
+            
+            switch (self[position]) {
+            case let .Bool(value):
                 result = value
                 
             default:

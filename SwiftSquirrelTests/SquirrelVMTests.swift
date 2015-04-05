@@ -85,6 +85,28 @@ class SquirrelVMTests: XCTestCase {
             "Should be able to read float values by passing reverse (negative) indexes")
     }
     
+    
+    // MARK: - stack booleans
+    func testThat_canReadPushedBoolyForwardIndex() {
+        squirrel.stack <- true
+        squirrel.stack <- false
+        XCTAssertEqual(squirrel.stack.bool(at: 1)!, true,
+            "Should be able to read bool values by passing forward (positive) indexes")
+        XCTAssertEqual(squirrel.stack.bool(at: 2)!, false,
+            "Should be able to read bool values by passing forward (positive) indexes")
+    }
+    
+    
+    func testThat_canReadPushedBoolByReverseIndex() {
+        squirrel.stack <- true
+        squirrel.stack <- false
+        XCTAssertEqual(squirrel.stack.bool(at: -1)!, false,
+            "Should be able to read bool values by passing reverse (negative) indexes")
+        XCTAssertEqual(squirrel.stack.bool(at: -2)!, true,
+            "Should be able to read bool values by passing reverse (negative) indexes")
+    }
+
+    
     // MARK: - stack integer to float conversion
     func testThat_integersAreConvertibleToFloats() {
         squirrel.stack <- 1
@@ -97,5 +119,31 @@ class SquirrelVMTests: XCTestCase {
         squirrel.stack <- 1.0
         XCTAssertEqual(squirrel.stack.integer(at: 1)!, 1,
             "Stack should be able to convert float values to integers")
+    }
+    
+    
+    // MARK: - stack bool conversion
+    func testThat_boolIsNotConvertibleToInteger() {
+        squirrel.stack <- true
+        XCTAssertTrue(squirrel.stack.integer(at: 1) == nil,
+            "Should not implicitly convert bools to integers")
+    }
+    
+    func testThat_boolIsNotConvertibleToFloat() {
+        squirrel.stack <- true
+        XCTAssertTrue(squirrel.stack.float(at: 1) == nil,
+            "Should not implicitly convert floats to integers")
+    }
+    
+    func testThat_integerIsNotConvertibleToBool() {
+        squirrel.stack <- 1
+        XCTAssertTrue(squirrel.stack.bool(at: 1) == nil,
+            "Should not implicitly convert integers to bools")
+    }
+    
+    func testThat_floatIsNotConvertibleToBool() {
+        squirrel.stack <- 1.0
+        XCTAssertTrue(squirrel.stack.bool(at: 1) == nil,
+            "Should not implicitly convert floats to bools")
     }
 }

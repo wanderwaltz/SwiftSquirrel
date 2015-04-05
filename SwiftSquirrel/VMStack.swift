@@ -31,12 +31,14 @@ public protocol VMStack: class {
     // MARK: - push functions
     func push(x: Int)
     func push(x: Float)
+    func push(x: Bool)
     
     // MARK: - reading functions
     subscript(position: Int) -> SQValue { get }
     
     func integer(at position: Int) -> Int?
     func float(at position: Int) -> Float?
+    func bool(at position: Int) -> Bool?
 }
 
 infix operator <- { associativity left precedence 140 }
@@ -47,6 +49,11 @@ public func <- (stack: VMStack, x: Int) -> VMStack {
 }
 
 public func <- (stack: VMStack, x: Float) -> VMStack {
+    stack.push(x)
+    return stack
+}
+
+public func <- (stack: VMStack, x: Bool) -> VMStack {
     stack.push(x)
     return stack
 }

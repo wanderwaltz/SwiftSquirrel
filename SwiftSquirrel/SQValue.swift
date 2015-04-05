@@ -28,5 +28,6 @@ import Foundation
 public enum SQValue {
     case Int(Swift.Int)
     case Float(Swift.Float)
+    case Bool(Swift.Bool)
     case Null
 }
