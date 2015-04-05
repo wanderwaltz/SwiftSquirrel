@@ -33,7 +33,8 @@ public protocol VMStack: class {
     func push(x: Float)
     
     // MARK: - reading functions
-    func at(position: Int) -> SQValue
+    subscript(position: Int) -> SQValue { get }
+    
     func integer(at position: Int) -> Int?
     func float(at position: Int) -> Float?
 }

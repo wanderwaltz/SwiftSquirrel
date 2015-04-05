@@ -72,7 +72,7 @@ public class SquirrelVM {
         }
         
         
-        private func at(position: Int) -> SQValue {
+        private subscript(position: Int) -> SQValue {
             switch (sq_gettype(vm, SQInteger(position)).value) {
                 
             case OT_INTEGER.value:
@@ -94,7 +94,7 @@ public class SquirrelVM {
         private func integer(at position: Int) -> Int? {
             var result: Int? = nil
             
-            switch (at(position)) {
+            switch (self[position]) {
                 
             case let .Int(value):
                 result = value
@@ -112,7 +112,7 @@ public class SquirrelVM {
         private func float(at position: Int) -> Float? {
             var result: Float? = nil
             
-            switch (at(position)) {
+            switch (self[position]) {
                 
             case let .Int(value):
                 result = Float(value)
