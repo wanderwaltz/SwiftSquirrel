@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F71AD1BBD6001228EA /* SQValue.swift */; };
+		5D53B8FA1AD1CD45001228EA /* SQValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F91AD1CD45001228EA /* SQValueTests.swift */; };
 		5DF866B11AD1A877006E9F74 /* SwiftSquirrel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DF866B71AD1A877006E9F74 /* SwiftSquirrel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DF866AB1AD1A877006E9F74 /* SwiftSquirrel.framework */; };
 		5DF866BE1AD1A877006E9F74 /* SquirrelVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF866BD1AD1A877006E9F74 /* SquirrelVMTests.swift */; };
@@ -94,6 +95,7 @@
 
 /* Begin PBXFileReference section */
 		5D53B8F71AD1BBD6001228EA /* SQValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValue.swift; sourceTree = "<group>"; };
+		5D53B8F91AD1CD45001228EA /* SQValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValueTests.swift; sourceTree = "<group>"; };
 		5DF866AB1AD1A877006E9F74 /* SwiftSquirrel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftSquirrel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DF866AF1AD1A877006E9F74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftSquirrel.h; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				5DF866BD1AD1A877006E9F74 /* SquirrelVMTests.swift */,
+				5D53B8F91AD1CD45001228EA /* SQValueTests.swift */,
 				5DF866BB1AD1A877006E9F74 /* Supporting Files */,
 			);
 			path = SwiftSquirrelTests;
@@ -583,6 +586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DF866BE1AD1A877006E9F74 /* SquirrelVMTests.swift in Sources */,
+				5D53B8FA1AD1CD45001228EA /* SQValueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,10 +25,100 @@
 
 import Foundation
 
-public enum SQValue {
+public enum SQValue: IntegerLiteralConvertible,
+                     FloatLiteralConvertible,
+                     BooleanLiteralConvertible,
+                     StringLiteralConvertible,
+                     Equatable {
+    
     case Int(Swift.Int)
     case Float(Swift.Float)
     case Bool(Swift.Bool)
     case String(Swift.String)
     case Null
+    
+    public init(integerLiteral value: Swift.Int) {
+        self = .Int(value)
+    }
+    
+    public init(floatLiteral value: Swift.Float) {
+        self = .Float(value)
+    }
+    
+    public init(booleanLiteral value: Swift.Bool) {
+        self = .Bool(value)
+    }
+    
+    public init(stringLiteral value: Swift.String){
+        self = .String(value)
+    }
+    
+    public init(extendedGraphemeClusterLiteral value: Swift.String){
+        self = .String(value)
+    }
+    
+    public init(unicodeScalarLiteral value: Swift.String) {
+        self = .String(value)
+    }
 }
+
+public func ==(left: SQValue, right: SQValue) -> Bool {
+    switch (left, right) {
+    case (.Int(let a), .Int(let b)) where a == b: return true
+    case (.Float(let a), .Float(let b)) where a == b: return true
+    case (.Bool(let a), .Bool(let b)) where a == b: return true
+    case (.String(let a), .String(let b)) where a == b: return true
+    case (.Null, .Null): return true
+    default: return false
+    }
+}
+
+
+public func + (left: SQValue, right: SQValue) -> SQValue {
+    switch (left, right) {
+    case (.Int(let a), .Int(let b)): return .Int(a+b)
+    case (.Float(let a), .Int(let b)): return .Float(a+Float(b))
+    case (.Int(let a), .Float(let b)): return .Float(Float(a)+b)
+    case (.String(let a), .String(let b)): return .String(a+b)
+        
+    default:
+        return .Null
+    }
+}
+
+
+public func - (left: SQValue, right: SQValue) -> SQValue {
+    switch (left, right) {
+    case (.Int(let a), .Int(let b)): return .Int(a-b)
+    case (.Float(let a), .Int(let b)): return .Float(a-Float(b))
+    case (.Int(let a), .Float(let b)): return .Float(Float(a)-b)
+        
+    default:
+        return .Null
+    }
+}
+
+
+public func * (left: SQValue, right: SQValue) -> SQValue {
+    switch (left, right) {
+    case (.Int(let a), .Int(let b)): return .Int(a*b)
+    case (.Float(let a), .Int(let b)): return .Float(a*Float(b))
+    case (.Int(let a), .Float(let b)): return .Float(Float(a)*b)
+        
+    default:
+        return .Null
+    }
+}
+
+
+public func / (left: SQValue, right: SQValue) -> SQValue {
+    switch (left, right) {
+    case (.Int(let a), .Int(let b)): return .Int(a/b)
+    case (.Float(let a), .Int(let b)): return .Float(a/Float(b))
+    case (.Int(let a), .Float(let b)): return .Float(Float(a)/b)
+        
+    default:
+        return .Null
+    }
+}
+
