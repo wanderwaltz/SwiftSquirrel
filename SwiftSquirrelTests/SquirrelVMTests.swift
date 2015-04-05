@@ -52,11 +52,11 @@ class SquirrelVMTests: XCTestCase {
     }
     
     
-    // MARK: - stack reading tests
+    // MARK: - stack integers
     func testThat_canReadPushedIntegerByForwardIndex() {
         squirrel.stack.push(1)
         squirrel.stack.push(2)
-        XCTAssertEqual(squirrel.stack.integer(at: 1), 1,
+        XCTAssertEqual(squirrel.stack.integer(at: 1)!, 1,
             "Should be able to read integer values by passing forward (positive) indexes")
     }
     
@@ -64,7 +64,38 @@ class SquirrelVMTests: XCTestCase {
     func testThat_canReadPushedIntegerByReverseIndex() {
         squirrel.stack.push(1)
         squirrel.stack.push(2)
-        XCTAssertEqual(squirrel.stack.integer(at: -1), 2,
+        XCTAssertEqual(squirrel.stack.integer(at: -1)!, 2,
             "Should be able to read integer values by passing reverse (negative) indexes")
+    }
+    
+    
+    // MARK: - stack floats
+    func testThat_canReadPushedFloatByForwardIndex() {
+        squirrel.stack.push(1.0)
+        squirrel.stack.push(2.0)
+        XCTAssertEqual(squirrel.stack.float(at: 1)!, 1.0,
+            "Should be able to read float values by passing forward (positive) indexes")
+    }
+    
+    
+    func testThat_canReadPushedFloatByReverseIndex() {
+        squirrel.stack.push(1.0)
+        squirrel.stack.push(2.0)
+        XCTAssertEqual(squirrel.stack.float(at: -1)!, 2.0,
+            "Should be able to read float values by passing reverse (negative) indexes")
+    }
+    
+    // MARK: - stack integer to float conversion
+    func testThat_integersAreConvertibleToFloats() {
+        squirrel.stack.push(1)
+        XCTAssertEqual(squirrel.stack.float(at: 1)!, 1.0,
+            "Stack should be able to convert integer values to floats")
+    }
+    
+    
+    func testThat_floatsAreConvertibleToIntegers() {
+        squirrel.stack.push(1.0)
+        XCTAssertEqual(squirrel.stack.integer(at: 1)!, 1,
+            "Stack should be able to convert float values to integers")
     }
 }

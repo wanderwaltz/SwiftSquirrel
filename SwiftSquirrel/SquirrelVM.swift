@@ -67,10 +67,64 @@ public class SquirrelVM {
             sq_pushinteger(vm, SQInteger(x))
         }
         
-        private func integer(at position: Int) -> Int {
-            var result: SQInteger = 0
-            sq_getinteger(vm, SQInteger(position), &result)
-            return Int(result)
+        private func push(x: Float) {
+            sq_pushfloat(vm, SQFloat(x))
+        }
+        
+        
+        private func at(position: Int) -> SQValue {
+            switch (sq_gettype(vm, SQInteger(position)).value) {
+                
+            case OT_INTEGER.value:
+                var value: SQInteger = 0
+                sq_getinteger(vm, SQInteger(position), &value)
+                return SQValue.Int(Int(value))
+                
+            case OT_FLOAT.value:
+                var value: SQFloat = 0
+                sq_getfloat(vm, SQInteger(position), &value)
+                return SQValue.Float(Float(value))
+                
+            default:
+                return SQValue.Null
+            }
+        }
+        
+        
+        private func integer(at position: Int) -> Int? {
+            var result: Int? = nil
+            
+            switch (at(position)) {
+                
+            case let .Int(value):
+                result = value
+                
+            case let .Float(value):
+                result = Int(value)
+                
+            default:
+                result = nil
+            }
+            
+            return result
+        }
+        
+        private func float(at position: Int) -> Float? {
+            var result: Float? = nil
+            
+            switch (at(position)) {
+                
+            case let .Int(value):
+                result = Float(value)
+                
+            case let .Float(value):
+                result = value
+                
+            default:
+                result = nil
+            }
+            
+            return result
         }
         
 

@@ -1,5 +1,5 @@
 //
-//  VMStack.swift
+//  Value.swift
 //  SwiftSquirrel
 //
 //  Created by Egor Chiglintsev on 06.04.15.
@@ -25,15 +25,8 @@
 
 import Foundation
 
-public protocol VMStack: class {
-    var top: Int { get set }
-    
-    // MARK: - push functions
-    func push(x: Int)
-    func push(x: Float)
-    
-    // MARK: - reading functions
-    func at(position: Int) -> SQValue
-    func integer(at position: Int) -> Int?
-    func float(at position: Int) -> Float?
+public enum SQValue {
+    case Int(Swift.Int)
+    case Float(Swift.Float)
+    case Null
 }
