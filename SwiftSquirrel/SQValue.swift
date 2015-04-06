@@ -25,42 +25,12 @@
 
 import Foundation
 
-public enum SQValue: IntegerLiteralConvertible,
-                     FloatLiteralConvertible,
-                     BooleanLiteralConvertible,
-                     StringLiteralConvertible,
-                     Equatable {
-    
+public enum SQValue : Equatable {
     case Int(Swift.Int)
     case Float(Swift.Float)
     case Bool(Swift.Bool)
     case String(Swift.String)
     case Null
-    
-    // MARK: - SQValue::literal covertibles
-    public init(integerLiteral value: Swift.Int) {
-        self = .Int(value)
-    }
-    
-    public init(floatLiteral value: Swift.Float) {
-        self = .Float(value)
-    }
-    
-    public init(booleanLiteral value: Swift.Bool) {
-        self = .Bool(value)
-    }
-    
-    public init(stringLiteral value: Swift.String){
-        self = .String(value)
-    }
-    
-    public init(extendedGraphemeClusterLiteral value: Swift.String){
-        self = .String(value)
-    }
-    
-    public init(unicodeScalarLiteral value: Swift.String) {
-        self = .String(value)
-    }
     
     // MARK: - SQValue::conversions
     public var asFloat: Swift.Float? {
