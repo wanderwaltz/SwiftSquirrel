@@ -44,24 +44,22 @@ public protocol VMStack: class {
     func string(at position: Int) -> String?
 }
 
-infix operator <- { associativity left precedence 140 }
-
-public func <- (stack: VMStack, x: Int) -> VMStack {
+public func << (stack: VMStack, x: Int) -> VMStack {
     stack.push(x)
     return stack
 }
 
-public func <- (stack: VMStack, x: Float) -> VMStack {
+public func << (stack: VMStack, x: Float) -> VMStack {
     stack.push(x)
     return stack
 }
 
-public func <- (stack: VMStack, x: Bool) -> VMStack {
+public func << (stack: VMStack, x: Bool) -> VMStack {
     stack.push(x)
     return stack
 }
 
-public func <- (stack: VMStack, x: String) -> VMStack {
+public func << (stack: VMStack, x: String) -> VMStack {
     stack.push(x)
     return stack
 }

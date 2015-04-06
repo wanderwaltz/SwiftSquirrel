@@ -38,14 +38,14 @@ class SquirrelVMTests: XCTestCase {
     
     
     func testThat_pushingIncreasesStackTop() {
-        squirrel.stack <- 10
+        squirrel.stack << 10
         XCTAssertEqual(squirrel.stack.top, 1,
             "Pushing a value to the Squirrel VM stack should increase its top by 1")
     }
     
     
     func testThat_decreasingStackTopManuallyIsAllowed() {
-        squirrel.stack <- 10
+        squirrel.stack << 10
         squirrel.stack.top = 0
         XCTAssertEqual(squirrel.stack.top, 0,
             "Stack top can be set manually to pop any number of elements from the stack")
@@ -54,16 +54,16 @@ class SquirrelVMTests: XCTestCase {
         
     // MARK: - stack integers
     func testThat_canReadPushedIntegerByForwardIndex() {
-        squirrel.stack <- 1
-        squirrel.stack <- 2
+        squirrel.stack << 1
+        squirrel.stack << 2
         XCTAssertEqual(squirrel.stack.integer(at: 1)!, 1,
             "Should be able to read integer values by passing forward (positive) indexes")
     }
     
     
     func testThat_canReadPushedIntegerByReverseIndex() {
-        squirrel.stack <- 1
-        squirrel.stack <- 2
+        squirrel.stack << 1
+        squirrel.stack << 2
         XCTAssertEqual(squirrel.stack.integer(at: -1)!, 2,
             "Should be able to read integer values by passing reverse (negative) indexes")
     }
@@ -71,16 +71,16 @@ class SquirrelVMTests: XCTestCase {
     
     // MARK: - stack floats
     func testThat_canReadPushedFloatByForwardIndex() {
-        squirrel.stack <- 1.0
-        squirrel.stack <- 2.0
+        squirrel.stack << 1.0
+        squirrel.stack << 2.0
         XCTAssertEqual(squirrel.stack.float(at: 1)!, 1.0,
             "Should be able to read float values by passing forward (positive) indexes")
     }
     
     
     func testThat_canReadPushedFloatByReverseIndex() {
-        squirrel.stack <- 1.0
-        squirrel.stack <- 2.0
+        squirrel.stack << 1.0
+        squirrel.stack << 2.0
         XCTAssertEqual(squirrel.stack.float(at: -1)!, 2.0,
             "Should be able to read float values by passing reverse (negative) indexes")
     }
@@ -88,8 +88,8 @@ class SquirrelVMTests: XCTestCase {
     
     // MARK: - stack booleans
     func testThat_canReadPushedBoolyForwardIndex() {
-        squirrel.stack <- true
-        squirrel.stack <- false
+        squirrel.stack << true
+        squirrel.stack << false
         XCTAssertEqual(squirrel.stack.bool(at: 1)!, true,
             "Should be able to read bool values by passing forward (positive) indexes")
         XCTAssertEqual(squirrel.stack.bool(at: 2)!, false,
@@ -98,8 +98,8 @@ class SquirrelVMTests: XCTestCase {
     
     
     func testThat_canReadPushedBoolByReverseIndex() {
-        squirrel.stack <- true
-        squirrel.stack <- false
+        squirrel.stack << true
+        squirrel.stack << false
         XCTAssertEqual(squirrel.stack.bool(at: -1)!, false,
             "Should be able to read bool values by passing reverse (negative) indexes")
         XCTAssertEqual(squirrel.stack.bool(at: -2)!, true,
@@ -109,21 +109,21 @@ class SquirrelVMTests: XCTestCase {
     
     // MARK: - stack strings
     func testThat_canReadPushedStringByForwardIndex() {
-        squirrel.stack <- "first"
-        squirrel.stack <- "second"
+        squirrel.stack << "first"
+        squirrel.stack << "second"
         XCTAssertEqual(squirrel.stack.string(at: 1)!, "first",
             "Should be able to read string values by passing forward (positive) indexes")
     }
     
     func testThat_canReadPushedStringByReverseIndex() {
-        squirrel.stack <- "first"
-        squirrel.stack <- "second"
+        squirrel.stack << "first"
+        squirrel.stack << "second"
         XCTAssertEqual(squirrel.stack.string(at: -1)!, "second",
             "Should be able to read string values by passing reverse (negative) indexes")
     }
     
     func testThat_canReadPushedUnicodeString() {
-        squirrel.stack <- "текст" // <- "text" (in Cyrillic)
+        squirrel.stack << "текст" // <- "text" (in Cyrillic)
         XCTAssertEqual(squirrel.stack.string(at: 1)!, "текст",
             "Should be able to read unicode string values")
     }
@@ -131,13 +131,13 @@ class SquirrelVMTests: XCTestCase {
     
     // MARK: - stack integer to float conversion
     func testThat_integersAreConvertibleToFloats() {
-        squirrel.stack <- 1
+        squirrel.stack << 1
         XCTAssertEqual(squirrel.stack.float(at: 1)!, 1.0,
             "Stack should be able to convert integer values to floats")
     }
     
     func testThat_floatsAreConvertibleToIntegers() {
-        squirrel.stack <- 1.0
+        squirrel.stack << 1.0
         XCTAssertEqual(squirrel.stack.integer(at: 1)!, 1,
             "Stack should be able to convert float values to integers")
     }
@@ -145,25 +145,25 @@ class SquirrelVMTests: XCTestCase {
     
     // MARK: - stack bool conversion
     func testThat_boolIsNotConvertibleToInteger() {
-        squirrel.stack <- true
+        squirrel.stack << true
         XCTAssertTrue(squirrel.stack.integer(at: 1) == nil,
             "Should not implicitly convert bools to integers")
     }
     
     func testThat_boolIsNotConvertibleToFloat() {
-        squirrel.stack <- true
+        squirrel.stack << true
         XCTAssertTrue(squirrel.stack.float(at: 1) == nil,
             "Should not implicitly convert floats to integers")
     }
     
     func testThat_integerIsNotConvertibleToBool() {
-        squirrel.stack <- 1
+        squirrel.stack << 1
         XCTAssertTrue(squirrel.stack.bool(at: 1) == nil,
             "Should not implicitly convert integers to bools")
     }
     
     func testThat_floatIsNotConvertibleToBool() {
-        squirrel.stack <- 1.0
+        squirrel.stack << 1.0
         XCTAssertTrue(squirrel.stack.bool(at: 1) == nil,
             "Should not implicitly convert floats to bools")
     }
