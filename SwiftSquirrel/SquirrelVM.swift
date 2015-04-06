@@ -48,7 +48,7 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrelVM::private
-    private let vm: HSQUIRRELVM
+    internal let vm: HSQUIRRELVM
     
     // MARK: - SquirrleVM::private: stack
     private class Stack: VMStack {

@@ -28,22 +28,26 @@ import CSquirrel
 
 public class SQObject {
     // MARK: - initializers
-    init(vm: HSQUIRRELVM) {
+    public init(vm: SquirrelVM) {
         self.vm = vm
         sq_resetobject(&obj)
     }
     
-    init(vm: HSQUIRRELVM, object obj: HSQOBJECT) {
+    public init(vm: SquirrelVM, object obj: HSQOBJECT) {
         self.vm = vm
         self.obj = obj
-        sq_addref(vm, &self.obj)
+        sq_addref(vm.vm, &self.obj)
+    }
+    
+    convenience public init(vm: SquirrelVM, object obj: SQObject) {
+        self.init(vm: vm, object: obj.obj)
     }
     
     deinit {
-        sq_release(vm, &obj)
+        sq_release(vm.vm, &obj)
     }
     
-    // MARK: - private
-    private let vm: HSQUIRRELVM
-    private var obj: HSQOBJECT = HSQOBJECT()
+    // MARK: - internal
+    internal let vm: SquirrelVM
+    internal var obj: HSQOBJECT = HSQOBJECT()
 }
