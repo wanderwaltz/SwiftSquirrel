@@ -1,5 +1,5 @@
 //
-//  VMStack.swift
+//  SQTable.swift
 //  SwiftSquirrel
 //
 //  Created by Egor Chiglintsev on 06.04.15.
@@ -24,58 +24,42 @@
 //  SOFTWARE.
 
 import Foundation
+import CSquirrel
 
-public protocol VMStack: class {
-    var top: Int { get set }
+public class SQTable: SQObject, SequenceType, SquirrelCollection {
+    public typealias KeyType = SQValue
+    public typealias ValueType = SQValue
+    public typealias Element = (KeyType, ValueType)
+
+    // MARK: - SQTable::initializers
+    public override init(vm: SquirrelVM) {
+        super.init(vm: vm)
+        vm.perform { (let vm) in
+            sq_newtable(vm)
+            sq_getstackobj(vm, -1, &self.obj)
+            sq_addref(vm, &self.obj)
+        }
+    }
     
-    func pop(count: Int)
+    public override init(vm: SquirrelVM, object obj: HSQOBJECT) {
+        super.init(vm: vm, object: obj)
+    }
     
-    // MARK: - push functions
-    func push(x: SQValue)
-    func push(x: Int)
-    func push(x: Float)
-    func push(x: Bool)
-    func push(x: String)
-    func push(x: SQObject)
+    convenience public init(vm: SquirrelVM, object obj: SQObject) {
+        self.init(vm: vm, object: obj.obj)
+    }
     
-    // MARK: - reading functions
-    subscript(position: Int) -> SQValue { get }
     
-    func integer(at position: Int) -> Int?
-    func float(at position: Int) -> Float?
-    func bool(at position: Int) -> Bool?
-    func string(at position: Int) -> String?
+    // MARK: - SQTable::methods
+    public subscript (position: KeyType) -> ValueType {
+        get {
+            // TODO: implement
+            return .Null
+        }
+    }
     
-    func object(at position: Int) -> SQObject?
-    func table(at position: Int) -> SQTable?
-}
-
-public func << (stack: VMStack, x: SQValue) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: Int) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: Float) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: Bool) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: String) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: SQObject) -> VMStack {
-    stack.push(x)
-    return stack
+    // MARK: - SQTable::<SequenceType>
+    public func generate() -> KeyValueGenerator<SQTable> {
+        return vm.generateKeyValuePairs(collection: self)
+    }
 }

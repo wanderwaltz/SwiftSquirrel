@@ -37,10 +37,25 @@ public class SquirrelVM {
     // MARK: - SquirrelVM::properties
     public let stack: VMStack
     
+    public var rootTable: SQTable {
+        get {
+            sq_pushroottable(vm)
+            let table = stack.table(at: -1)!
+            sq_pop(vm, 1)
+            return table
+        }
+    }
+    
     // MARK: - SquirrelVM::initializers
-    public init(stackSize: Int) {
-        vm = sq_open(SQInteger(stackSize))
+    public init(vm: HSQUIRRELVM) {
+        self.vm = vm
         stack = Stack(vm: vm)
+        (stack as! Stack).parent = self
+    }
+    
+    convenience public init(stackSize: Int) {
+        let vm = sq_open(SQInteger(stackSize))
+        self.init(vm: vm)
     }
     
     convenience public init() {
@@ -51,6 +66,17 @@ public class SquirrelVM {
         sq_close(vm)
     }
     
+    // MARK: - SquirrelVM::methods
+    public func perform(f: HSQUIRRELVM -> ()) -> () {
+        let top = stack.top
+        f(vm)
+        stack.top = top
+    }
+    
+    public func generateKeyValuePairs<T: SQObject where T: SquirrelCollection>(collection obj: T) -> KeyValueGenerator<T> {
+        return KeyValueGenerator<T>(vm: self, collection: obj)
+    }
+
     // MARK: - SquirrelVM::private
     internal let vm: HSQUIRRELVM
     
@@ -143,6 +169,12 @@ public class SquirrelVM {
                     return .Null
                 }
                 
+            case OT_TABLE.value:
+                var obj: HSQOBJECT = HSQOBJECT()
+                sq_resetobject(&obj)
+                sq_getstackobj(vm, SQInteger(position), &obj)
+                return .Object(SQTable(vm: parent!, object: obj))
+                
             default:
                 return .Null
             }
@@ -169,6 +201,10 @@ public class SquirrelVM {
             return self[position].asObject
         }
         
+        private func table(at position: Int) -> SQTable? {
+            return self[position].asTable
+        }
+        
 
         // MARK: - SquirrelVM::Stack::initializers
         private init(vm: HSQUIRRELVM) {
@@ -177,5 +213,6 @@ public class SquirrelVM {
         
         // MARK: - SquirrelVM::Stack::private
         private let vm: HSQUIRRELVM
+        private weak var parent: SquirrelVM?
     }
 }

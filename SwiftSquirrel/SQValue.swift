@@ -94,6 +94,23 @@ public enum SQValue: Hashable {
             }
         }
     }
+    
+    public var asTable: SQTable? {
+        get {
+            switch (self) {
+            case let .Object(value):
+                if value.obj._type.value == OT_TABLE.value {
+                    return SQTable(vm: value.vm, object: value.obj)
+                }
+                else {
+                    return nil
+                }
+            default:
+                return nil
+            }
+        }
+    }
+    
     // MARK: - SQValue::<Hashable>
     public var hashValue: Swift.Int {
         get {
