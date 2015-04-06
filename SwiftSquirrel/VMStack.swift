@@ -49,6 +49,11 @@ public protocol VMStack: class {
     func object(at position: Int) -> SQObject?
 }
 
+public func << (stack: VMStack, x: SQValue) -> VMStack {
+    stack.push(x)
+    return stack
+}
+
 public func << (stack: VMStack, x: Int) -> VMStack {
     stack.push(x)
     return stack
