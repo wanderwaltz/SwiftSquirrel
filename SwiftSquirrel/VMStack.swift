@@ -29,6 +29,7 @@ public protocol VMStack: class {
     var top: Int { get set }
     
     // MARK: - push functions
+    func push(x: SQValue)
     func push(x: Int)
     func push(x: Float)
     func push(x: Bool)

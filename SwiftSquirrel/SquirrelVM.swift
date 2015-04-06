@@ -63,22 +63,41 @@ public class SquirrelVM {
             }
         }
         
+        private func push(x: SQValue) {
+            switch (x) {
+            case let .Int(value):
+                sq_pushinteger(vm, SQInteger(value))
+                
+            case let .Float(value):
+                sq_pushfloat(vm, SQFloat(value))
+                
+            case let .Bool(value):
+                sq_pushbool(vm, (value == true) ? SQBool(SQTrue) : SQBool(SQFalse))
+                
+            case let .String(value):
+                let cString = (value as NSString).UTF8String
+                let length = strlen(cString)
+                sq_pushstring(vm, cString, SQInteger(length))
+                
+            case .Null:
+                sq_pushnull(vm)
+            }
+        }
+        
         private func push(x: Int) {
-            sq_pushinteger(vm, SQInteger(x))
+            push(SQValue.Int(x))
         }
         
         private func push(x: Float) {
-            sq_pushfloat(vm, SQFloat(x))
+            push(SQValue.Float(x))
         }
         
         private func push(x: Bool) {
-            sq_pushbool(vm, ((x == true) ? SQBool(SQTrue) : SQBool(SQFalse)))
+            push(SQValue.Bool(x))
         }
         
         private func push(x: String) {
-            let cString = (x as NSString).UTF8String
-            let length = strlen(cString)
-            sq_pushstring(vm, cString, SQInteger(length))
+            push(SQValue.String(x))
         }
         
         
@@ -117,67 +136,19 @@ public class SquirrelVM {
         
         
         private func integer(at position: Int) -> Int? {
-            var result: Int? = nil
-            
-            switch (self[position]) {
-                
-            case let .Int(value):
-                result = value
-                
-            case let .Float(value):
-                result = Int(value)
-                
-            default:
-                result = nil
-            }
-            
-            return result
+            return self[position].asInt
         }
         
         private func float(at position: Int) -> Float? {
-            var result: Float? = nil
-            
-            switch (self[position]) {
-                
-            case let .Int(value):
-                result = Float(value)
-                
-            case let .Float(value):
-                result = value
-                
-            default:
-                result = nil
-            }
-            
-            return result
+            return self[position].asFloat
         }
         
         private func bool(at position: Int) -> Bool? {
-            var result: Bool? = nil
-            
-            switch (self[position]) {
-            case let .Bool(value):
-                result = value
-                
-            default:
-                result = nil
-            }
-            
-            return result
+            return self[position].asBool
         }
         
         private func string(at position: Int) -> String? {
-            var result: String? = nil
-            
-            switch (self[position]) {
-            case let .String(value):
-                result = value
-                
-            default:
-                result = nil
-            }
-            
-            return result
+            return self[position].asString
         }
         
 

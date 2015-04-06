@@ -37,6 +37,7 @@ public enum SQValue: IntegerLiteralConvertible,
     case String(Swift.String)
     case Null
     
+    // MARK: - SQValue::literal covertibles
     public init(integerLiteral value: Swift.Int) {
         self = .Int(value)
     }
@@ -60,8 +61,58 @@ public enum SQValue: IntegerLiteralConvertible,
     public init(unicodeScalarLiteral value: Swift.String) {
         self = .String(value)
     }
+    
+    // MARK: - SQValue::conversions
+    public var asFloat: Swift.Float? {
+        get {
+            switch (self) {
+            case let .Float(value):
+                return value
+            case let .Int(value):
+                return Swift.Float(value)
+            default:
+                return nil
+            }
+        }
+    }
+    
+    public var asInt: Swift.Int? {
+        get {
+            switch (self) {
+            case let .Float(value):
+                return Swift.Int(value)
+            case let .Int(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    
+    public var asBool: Swift.Bool? {
+        get {
+            switch (self) {
+            case let .Bool(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    
+    public var asString: Swift.String? {
+        get {
+            switch (self) {
+            case let .String(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
 }
 
+// MARK: - SQValue::operators
 public func ==(left: SQValue, right: SQValue) -> Bool {
     switch (left, right) {
     case (.Int(let a), .Int(let b)) where a == b: return true
