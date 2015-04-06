@@ -26,6 +26,10 @@
 import Foundation
 import CSquirrel
 
+public func SQ_SUCCEEDED(result: SQRESULT) -> Bool {
+    return result == SQRESULT(SQ_OK)
+}
+
 public class SquirrelVM {
     // MARK: - SquirrelVM::constants
     public static let DefaultStackSize = 1024
