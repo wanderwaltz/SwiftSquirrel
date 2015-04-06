@@ -25,7 +25,8 @@
 
 import Foundation
 
-public enum SQValue : Equatable {
+public enum SQValue: Hashable {
+    
     case Int(Swift.Int)
     case Float(Swift.Float)
     case Bool(Swift.Bool)
@@ -77,6 +78,23 @@ public enum SQValue : Equatable {
                 return value
             default:
                 return nil
+            }
+        }
+    }
+    // MARK: - SQValue::<Hashable>
+    public var hashValue: Swift.Int {
+        get {
+            switch (self) {
+            case let .Int(value):
+                return value.hashValue
+            case let .Float(value):
+                return value.hashValue
+            case let .Bool(value):
+                return value.hashValue
+            case let .String(value):
+                return value.hashValue
+            case .Null:
+                return 0
             }
         }
     }
