@@ -24,6 +24,7 @@
 //  SOFTWARE.
 
 import Foundation
+import CSquirrel
 
 public enum SQValue: Hashable {
     
@@ -31,6 +32,7 @@ public enum SQValue: Hashable {
     case Float(Swift.Float)
     case Bool(Swift.Bool)
     case String(Swift.String)
+    case Object(SQObject)
     case Null
     
     // MARK: - SQValue::conversions
@@ -81,6 +83,17 @@ public enum SQValue: Hashable {
             }
         }
     }
+    
+    public var asObject: SQObject? {
+        get {
+            switch (self) {
+            case let .Object(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
     // MARK: - SQValue::<Hashable>
     public var hashValue: Swift.Int {
         get {
@@ -93,6 +106,8 @@ public enum SQValue: Hashable {
                 return value.hashValue
             case let .String(value):
                 return value.hashValue
+            case let .Object(obj):
+                return Swift.Int(obj.obj._type.value)
             case .Null:
                 return 0
             }

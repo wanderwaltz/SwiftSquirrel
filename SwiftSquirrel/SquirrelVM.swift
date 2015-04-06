@@ -79,6 +79,9 @@ public class SquirrelVM {
                 let length = strlen(cString)
                 sq_pushstring(vm, cString, SQInteger(length))
                 
+            case let .Object(value):
+                sq_pushobject(vm, value.obj)
+                
             case .Null:
                 sq_pushnull(vm)
             }
@@ -100,6 +103,9 @@ public class SquirrelVM {
             push(SQValue.String(x))
         }
         
+        private func push(x: SQObject) {
+            push(SQValue.Object(x))
+        }
         
         private subscript(position: Int) -> SQValue {
             switch (sq_gettype(vm, SQInteger(position)).value) {
@@ -149,6 +155,10 @@ public class SquirrelVM {
         
         private func string(at position: Int) -> String? {
             return self[position].asString
+        }
+        
+        private func object(at position: Int) -> SQObject? {
+            return self[position].asObject
         }
         
 
