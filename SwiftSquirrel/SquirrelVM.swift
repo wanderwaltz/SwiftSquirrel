@@ -63,6 +63,10 @@ public class SquirrelVM {
             }
         }
         
+        private func pop(count: Int) {
+            sq_pop(vm, SQInteger(count))
+        }
+        
         private func push(x: SQValue) {
             switch (x) {
             case let .Int(value):

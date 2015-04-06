@@ -28,6 +28,8 @@ import Foundation
 public protocol VMStack: class {
     var top: Int { get set }
     
+    func pop(count: Int)
+    
     // MARK: - push functions
     func push(x: SQValue)
     func push(x: Int)
