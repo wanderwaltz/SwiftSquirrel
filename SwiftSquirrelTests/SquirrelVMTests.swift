@@ -28,7 +28,7 @@ import XCTest
 import SwiftSquirrel
 
 class SquirrelVMTests: XCTestCase {
-    var squirrel: SquirrelVM = SquirrelVM.init()
+    let squirrel: SquirrelVM = SquirrelVM.init()
     
     // MARK: - basic stack tests
     func testThat_initialStackTopIsZero() {
