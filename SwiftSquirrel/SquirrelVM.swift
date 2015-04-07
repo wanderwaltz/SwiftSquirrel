@@ -50,7 +50,7 @@ public class SquirrelVM {
     public init(vm: HSQUIRRELVM) {
         self.vm = vm
         stack = Stack(vm: vm)
-        (stack as! Stack).parent = self
+        vm ~ self
     }
     
     convenience public init(stackSize: Int) {
@@ -62,7 +62,16 @@ public class SquirrelVM {
         self.init(stackSize: SquirrelVM.DefaultStackSize)
     }
     
+    public static func associated(#vm: HSQUIRRELVM) -> SquirrelVM {
+        if let vm = ~vm {
+            return vm
+        }
+        
+        return SquirrelVM(vm: vm)
+    }
+    
     deinit {
+        vm ~ nil
         sq_close(vm)
     }
     
@@ -173,7 +182,7 @@ public class SquirrelVM {
                 var obj: HSQOBJECT = HSQOBJECT()
                 sq_resetobject(&obj)
                 sq_getstackobj(vm, SQInteger(position), &obj)
-                return .Object(SQTable(vm: parent!, object: obj))
+                return .Object(SQTable(vm: SquirrelVM.associated(vm: vm), object: obj))
                 
             default:
                 return .Null
@@ -213,6 +222,43 @@ public class SquirrelVM {
         
         // MARK: - SquirrelVM::Stack::private
         private let vm: HSQUIRRELVM
-        private weak var parent: SquirrelVM?
     }
+}
+
+// MARK: - Weak<T>
+private class Weak<T:AnyObject> {
+    init(value: T) {
+        self.value = value
+    }
+    
+    weak var value: T?
+}
+
+infix operator ~ { associativity left precedence 140 }
+prefix operator ~ {}
+
+private func ~ (sqvm: HSQUIRRELVM, vm: SquirrelVM?) {
+    if let vm = vm {
+        var foreignPtr = UnsafeMutablePointer<Weak<SquirrelVM>>.alloc(1)
+        foreignPtr.initialize(Weak(value: vm))
+        sq_setforeignptr(sqvm, foreignPtr)
+    }
+    else {
+        let foreignPtr = sq_getforeignptr(sqvm)
+        if foreignPtr != nil {
+            foreignPtr.destroy()
+            foreignPtr.dealloc(1)
+        }
+    }
+}
+
+private prefix func ~ (vm: HSQUIRRELVM) -> SquirrelVM? {
+    let ptr = sq_getforeignptr(vm)
+    
+    if ptr != nil {
+        if let vm = UnsafeMutablePointer<Weak<SquirrelVM>>(ptr).memory.value {
+            return vm;
+        }
+    }
+    return nil
 }
