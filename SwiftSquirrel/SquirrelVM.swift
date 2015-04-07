@@ -39,10 +39,7 @@ public class SquirrelVM {
     
     public var rootTable: SQTable {
         get {
-            sq_pushroottable(vm)
-            let table = stack.table(at: -1)!
-            sq_pop(vm, 1)
-            return table
+            return SQTable(vm: self, object: object.rootTable())
         }
     }
     
@@ -50,6 +47,7 @@ public class SquirrelVM {
     public init(vm: HSQUIRRELVM) {
         self.vm = vm
         stack = Stack(vm: vm)
+        object = ObjectAPI(vm: vm)
         vm ~ self
     }
     
@@ -76,18 +74,13 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrelVM::methods
-    public func perform(f: HSQUIRRELVM -> ()) -> () {
-        let top = stack.top
-        f(vm)
-        stack.top = top
-    }
-    
     public func generateKeyValuePairs<T: SQObject where T: SquirrelCollection>(collection obj: T) -> KeyValueGenerator<T> {
         return KeyValueGenerator<T>(vm: self, collection: obj)
     }
 
     // MARK: - SquirrelVM::internal
     internal let vm: HSQUIRRELVM
+    internal let object: SQObjectAPI
     
     internal func count<T: SQObject where T: Countable, T: SQValueConvertible>(object: T) -> Int {
         stack << object
@@ -123,6 +116,19 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrelVM::private
+    private func create(createFunc: (HSQUIRRELVM) -> ()) -> HSQOBJECT {
+        let top = stack.top
+        
+        var obj: HSQOBJECT = HSQOBJECT()
+        sq_resetobject(&obj)
+    
+        createFunc(vm)
+        sq_getstackobj(vm, -1, &obj)
+        
+        stack.top = top
+        return obj
+    }
+    
     private func collectionSetter(#collection: SQObject, key: SQValue, value: SQValue,
         operation: (HSQUIRRELVM, SQInteger) -> SQRESULT) -> Bool {
             
@@ -136,6 +142,66 @@ public class SquirrelVM {
         stack.top = top
         
         return result
+    }
+    
+    // MARK: - SquirrelVM::private: object API
+    private class ObjectAPI: SQObjectAPI {
+        init(vm: HSQUIRRELVM) {
+            self.vm = vm
+        }
+        
+        private func retain(inout obj: HSQOBJECT) -> HSQOBJECT {
+            sq_addref(vm, &obj)
+            return obj
+        }
+        
+        private func release(inout obj: HSQOBJECT) -> HSQOBJECT {
+            sq_release(vm, &obj)
+            return obj
+        }
+        
+        private func retainCount(inout obj: HSQOBJECT) -> Int {
+            return Int(sq_getrefcount(vm, &obj))
+        }
+        
+        private func table() -> HSQOBJECT {
+            return create(sq_newtable)
+        }
+        
+        private func rootTable() -> HSQOBJECT {
+            return create(sq_pushroottable)
+        }
+        
+        private func array() -> HSQOBJECT {
+            return create(bindLast(sq_newarray, 0))
+        }
+        
+        private func array(#size: Int) -> HSQOBJECT {
+            return create(bindLast(sq_newarray, SQInteger(size)))
+        }
+        
+        private func null() -> HSQOBJECT {
+            var result = HSQOBJECT()
+            sq_resetobject(&result)
+            return result
+        }
+        
+        
+        private func create(creationFunc: (HSQUIRRELVM) -> ()) -> HSQOBJECT {
+            var result = null()
+            
+            let top = sq_gettop(vm)
+            
+            creationFunc(vm)
+            sq_getstackobj(vm, -1, &result)
+            sq_addref(vm, &result)
+            
+            sq_settop(vm, top)
+            
+            return result
+        }
+        
+        private let vm: HSQUIRRELVM
     }
     
     // MARK: - SquirrleVM::private: stack

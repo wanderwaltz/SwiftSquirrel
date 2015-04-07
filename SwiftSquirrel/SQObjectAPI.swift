@@ -1,9 +1,8 @@
 //
-//  SQObject.swift
+//  SQObjectAPI.swift
 //  SwiftSquirrel
 //
-//  Created by Egor Chiglintsev on 06.04.15.
-//  Copyright (c) 2015  Egor Chiglintsev
+//  Created by Egor Chiglintsev on 08.04.15.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,39 +25,16 @@
 import Foundation
 import CSquirrel
 
-public class SQObject {
-    // MARK: - initializers
-    public init(vm: SquirrelVM) {
-        self.vm = vm
-        self.obj = vm.object.null()
-    }
+internal protocol SQObjectAPI {
+    func retain(inout obj: HSQOBJECT) -> HSQOBJECT
+    func release(inout obj: HSQOBJECT) -> HSQOBJECT
+    func retainCount(inout obj: HSQOBJECT) -> Int
     
-    public init(vm: SquirrelVM, object obj: HSQOBJECT) {
-        self.vm = vm
-        self.obj = obj
-    }
+    func table() -> HSQOBJECT
+    func rootTable() -> HSQOBJECT
     
-    convenience public init(vm: SquirrelVM, object obj: SQObject) {
-        self.init(vm: vm, object: obj.obj)
-    }
+    func array() -> HSQOBJECT
+    func array(#size: Int) -> HSQOBJECT
     
-    deinit {
-        vm.object.release(&_obj)
-    }
-    
-    // MARK: - internal
-    internal let vm: SquirrelVM
-    internal var _obj: HSQOBJECT = HSQOBJECT()
-    
-    internal var obj: HSQOBJECT {
-        get {
-            return _obj
-        }
-        
-        set {
-            vm.object.release(&_obj)
-            _obj = newValue
-            vm.object.retain(&_obj)
-        }
-    }
+    func null() -> HSQOBJECT
 }

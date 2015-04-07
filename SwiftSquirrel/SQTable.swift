@@ -34,11 +34,7 @@ public class SQTable: SQObject, SequenceType, SquirrelCollection, Countable {
     // MARK: - SQTable::initializers
     public override init(vm: SquirrelVM) {
         super.init(vm: vm)
-        vm.perform { (let vm) in
-            sq_newtable(vm)
-            sq_getstackobj(vm, -1, &self.obj)
-            sq_addref(vm, &self.obj)
-        }
+        self.obj = vm.object.table()
     }
     
     public override init(vm: SquirrelVM, object obj: HSQOBJECT) {
