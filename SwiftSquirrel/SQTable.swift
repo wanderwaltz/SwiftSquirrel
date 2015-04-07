@@ -26,7 +26,7 @@
 import Foundation
 import CSquirrel
 
-public class SQTable: SQObject, SequenceType, SquirrelCollection {
+public class SQTable: SQObject, SequenceType, SquirrelCollection, Countable {
     public typealias KeyType = SQValue
     public typealias ValueType = SQValue
     public typealias Element = (KeyType, ValueType)
@@ -50,11 +50,21 @@ public class SQTable: SQObject, SequenceType, SquirrelCollection {
     }
     
     
-    // MARK: - SQTable::methods
-    public subscript (position: KeyType) -> ValueType {
+    // MARK: - SQTable::properties
+    public var count: Int {
         get {
-            // TODO: implement
-            return .Null
+            return vm.count(self)
+        }
+    }
+    
+    // MARK: - SQTable::methods
+    public subscript (key: SQValueConvertible) -> ValueType {
+        get {
+            return vm.getSlot(self, key: key.asSQValue)
+        }
+        
+        set(value) {
+            vm.newSlot(self, key: key.asSQValue, value: value)
         }
     }
     

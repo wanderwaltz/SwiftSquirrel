@@ -86,8 +86,57 @@ public class SquirrelVM {
         return KeyValueGenerator<T>(vm: self, collection: obj)
     }
 
-    // MARK: - SquirrelVM::private
+    // MARK: - SquirrelVM::internal
     internal let vm: HSQUIRRELVM
+    
+    internal func count<T: SQObject where T:Countable>(object: T) -> Int {
+        stack << object
+        let result = sq_getsize(vm, -1)
+        stack.pop(1)
+        return Int(result)
+    }
+    
+    internal func getSlot(collection: SQObject, key: SQValue) -> SQValue {
+        var result: SQValue = .Null
+        
+        let top = stack.top
+        
+        stack << collection
+        stack << key
+        
+        if SQ_SUCCEEDED(sq_get(vm, -2)) {
+            result = stack[-1]
+        }
+        
+        stack.top = top
+
+        return result
+    }
+    
+    internal func newSlot(table: SQTable, key: SQValue, value: SQValue) -> Bool {
+        return collectionSetter(collection: table, key: key, value: value,
+            operation: bindLast(sq_newslot, SQBool(SQFalse)))
+    }
+    
+    internal func setSlot(table: SQTable, key: SQValue, value: SQValue) -> Bool {
+        return collectionSetter(collection: table, key: key, value: value, operation: sq_set)
+    }
+    
+    // MARK: - SquirrelVM::private
+    private func collectionSetter(#collection: SQObject, key: SQValue, value: SQValue,
+        operation: (HSQUIRRELVM, SQInteger) -> SQRESULT) -> Bool {
+            
+        let top = stack.top
+        
+        stack << collection
+        stack << key
+        stack << value
+        let result = SQ_SUCCEEDED(operation(vm, -3))
+        
+        stack.top = top
+        
+        return result
+    }
     
     // MARK: - SquirrleVM::private: stack
     private class Stack: VMStack {
