@@ -41,6 +41,29 @@ public enum SQValue {
 }
 
 
+// MARK: - SQValue::<DebugPrintable>
+extension SQValue: DebugPrintable {
+    public var debugDescription: Swift.String {
+        get {
+            switch (self) {
+            case let Int(value):
+                return "Int(\(value))"
+            case let Float(value):
+                return "Float(\(value))"
+            case let Bool(value):
+                return "Bool(\(value))"
+            case let String(value):
+                return "String(\(value))"
+            case let Object(value):
+                return "Object(\(value))"
+            case Null:
+                return "Null"
+            }
+        }
+    }
+}
+
+
 // MARK: - SQValue::<Hashable>
 extension SQValue: Hashable {
     public var hashValue: IntType {
