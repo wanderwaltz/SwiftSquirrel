@@ -89,7 +89,7 @@ public class SquirrelVM {
     // MARK: - SquirrelVM::internal
     internal let vm: HSQUIRRELVM
     
-    internal func count<T: SQObject where T:Countable>(object: T) -> Int {
+    internal func count<T: SQObject where T: Countable, T: SQValueConvertible>(object: T) -> Int {
         stack << object
         let result = sq_getsize(vm, -1)
         stack.pop(1)
@@ -155,8 +155,8 @@ public class SquirrelVM {
             sq_pop(vm, SQInteger(count))
         }
         
-        private func push(x: SQValue) {
-            switch (x) {
+        private func push(x: SQValueConvertible) {
+            switch (x.asSQValue) {
             case let .Int(value):
                 sq_pushinteger(vm, SQInteger(value))
                 
@@ -177,26 +177,6 @@ public class SquirrelVM {
             case .Null:
                 sq_pushnull(vm)
             }
-        }
-        
-        private func push(x: Int) {
-            push(SQValue.Int(x))
-        }
-        
-        private func push(x: Double) {
-            push(SQValue.Float(x))
-        }
-        
-        private func push(x: Bool) {
-            push(SQValue.Bool(x))
-        }
-        
-        private func push(x: String) {
-            push(SQValue.String(x))
-        }
-        
-        private func push(x: SQObject) {
-            push(SQValue.Object(x))
         }
         
         private subscript(position: Int) -> SQValue {

@@ -32,7 +32,7 @@ public protocol SquirrelCollection {
 
 
 // MARK: - KeyValueGenerator
-public class KeyValueGenerator<T: SQObject where T: SquirrelCollection>: GeneratorType {
+public class KeyValueGenerator<T: SQObject where T: SquirrelCollection, T: SQValueConvertible>: GeneratorType {
     // MARK: - KeyValueGenerator::initializers
     init(vm: SquirrelVM, collection: T) {
         self.vm = vm

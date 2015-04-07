@@ -31,12 +31,7 @@ public protocol VMStack: class {
     func pop(count: Int)
     
     // MARK: - push functions
-    func push(x: SQValue)
-    func push(x: Int)
-    func push(x: Double)
-    func push(x: Bool)
-    func push(x: String)
-    func push(x: SQObject)
+    func push(x: SQValueConvertible)
     
     // MARK: - reading functions
     subscript(position: Int) -> SQValue { get }
@@ -55,27 +50,7 @@ public func << (stack: VMStack, x: SQValue) -> VMStack {
     return stack
 }
 
-public func << (stack: VMStack, x: Int) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: Double) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: Bool) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: String) -> VMStack {
-    stack.push(x)
-    return stack
-}
-
-public func << (stack: VMStack, x: SQObject) -> VMStack {
+public func << (stack: VMStack, x: SQValueConvertible) -> VMStack {
     stack.push(x)
     return stack
 }
