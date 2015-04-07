@@ -26,13 +26,7 @@
 import Foundation
 import CSquirrel
 
-public enum SQValue: Hashable, FloatLiteralConvertible,
-                               IntegerLiteralConvertible,
-                               BooleanLiteralConvertible,
-                               StringLiteralConvertible,
-                               NilLiteralConvertible,
-                               SQValueConvertible {
-    
+public enum SQValue {
     public typealias IntType = Swift.Int
     public typealias FloatType = Swift.Double
     public typealias BoolType = Swift.Bool
@@ -44,119 +38,11 @@ public enum SQValue: Hashable, FloatLiteralConvertible,
     case String(StringType)
     case Object(SQObject)
     case Null
-    
-    // MARK: - SQValue:literal conversions
-    public init(integerLiteral value: IntType) {
-        self = .Int(value)
-    }
-    
-    public init(floatLiteral value: FloatType) {
-        self = .Float(value)
-    }
-    
-    public init(booleanLiteral value: BoolType) {
-        self = .Bool(value)
-    }
-    
-    public init(stringLiteral value: StringType) {
-        self = .String(value)
-    }
-    
-    public init(extendedGraphemeClusterLiteral value: StringType) {
-        self = .String(value)
-    }
-    
-    public init(unicodeScalarLiteral value: StringType) {
-        self = .String(value)
-    }
-    
-    public init(nilLiteral: ()) {
-        self = .Null
-    }
-    
-    // MARK: - SQValue::conversions
-    public var asSQValue: SQValue {
-        get {
-            return self
-        }
-    }
-    
-    public var asFloat: FloatType? {
-        get {
-            switch (self) {
-            case let .Float(value):
-                return value
-            case let .Int(value):
-                return FloatType(value)
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var asInt: IntType? {
-        get {
-            switch (self) {
-            case let .Float(value):
-                return IntType(value)
-            case let .Int(value):
-                return value
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var asBool: BoolType? {
-        get {
-            switch (self) {
-            case let .Bool(value):
-                return value
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var asString: StringType? {
-        get {
-            switch (self) {
-            case let .String(value):
-                return value
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var asObject: SQObject? {
-        get {
-            switch (self) {
-            case let .Object(value):
-                return value
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var asTable: SQTable? {
-        get {
-            switch (self) {
-            case let .Object(value):
-                if value.obj._type.value == OT_TABLE.value {
-                    return SQTable(vm: value.vm, object: value.obj)
-                }
-                else {
-                    return nil
-                }
-            default:
-                return nil
-            }
-        }
-    }
-    
-    // MARK: - SQValue::<Hashable>
+}
+
+
+// MARK: - SQValue::<Hashable>
+extension SQValue: Hashable {
     public var hashValue: IntType {
         get {
             switch (self) {
@@ -240,11 +126,40 @@ public func / (left: SQValue, right: SQValue) -> SQValue {
 }
 
 
+// MARK: - SQValueConvertible
 public protocol SQValueConvertible {
     var asSQValue: SQValue { get }
 }
 
-// MARK: - SQValue convertibles
+extension SQValue: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return self
+        }
+    }
+}
+
+
+// MARK: - SQValue <-> Int
+extension SQValue: IntegerLiteralConvertible {
+    public init(integerLiteral value: IntType) {
+        self = .Int(value)
+    }
+    
+    public var asInt: IntType? {
+        get {
+            switch (self) {
+            case let .Float(value):
+                return IntType(value)
+            case let .Int(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+}
+
 extension Int: SQValueConvertible {
     public var asSQValue: SQValue {
         get {
@@ -253,6 +168,26 @@ extension Int: SQValueConvertible {
     }
 }
 
+
+// MARK: - SQValue <-> Double
+extension SQValue: FloatLiteralConvertible {
+    public init(floatLiteral value: FloatType) {
+        self = .Float(value)
+    }
+    
+    public var asFloat: FloatType? {
+        get {
+            switch (self) {
+            case let .Float(value):
+                return value
+            case let .Int(value):
+                return FloatType(value)
+            default:
+                return nil
+            }
+        }
+    }
+}
 
 extension Double: SQValueConvertible {
     public var asSQValue: SQValue {
@@ -263,6 +198,24 @@ extension Double: SQValueConvertible {
 }
 
 
+// MARK: - SQValue <-> Bool
+extension SQValue: BooleanLiteralConvertible {
+    public init(booleanLiteral value: BoolType) {
+        self = .Bool(value)
+    }
+    
+    public var asBool: BoolType? {
+        get {
+            switch (self) {
+            case let .Bool(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+}
+
 extension Bool: SQValueConvertible {
     public var asSQValue: SQValue {
         get {
@@ -272,6 +225,32 @@ extension Bool: SQValueConvertible {
 }
 
 
+// MARK: - SQValue <-> String
+extension SQValue: StringLiteralConvertible {
+    public init(stringLiteral value: StringType) {
+        self = .String(value)
+    }
+    
+    public init(extendedGraphemeClusterLiteral value: StringType) {
+        self = .String(value)
+    }
+    
+    public init(unicodeScalarLiteral value: StringType) {
+        self = .String(value)
+    }
+    
+    public var asString: StringType? {
+        get {
+            switch (self) {
+            case let .String(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+}
+
 extension String: SQValueConvertible {
     public var asSQValue: SQValue {
         get {
@@ -280,11 +259,48 @@ extension String: SQValueConvertible {
     }
 }
 
+// MARK: - SQValue <-> SQObject
+extension SQValue {
+    public var asObject: SQObject? {
+        get {
+            switch (self) {
+            case let .Object(value):
+                return value
+            default:
+                return nil
+            }
+        }
+    }
+    
+    public var asTable: SQTable? {
+        get {
+            switch (self) {
+            case let .Object(value):
+                if value.obj._type.value == OT_TABLE.value {
+                    return SQTable(vm: value.vm, object: value.obj)
+                }
+                else {
+                    return nil
+                }
+            default:
+                return nil
+            }
+        }
+    }
+}
 
 extension SQObject: SQValueConvertible {
     public var asSQValue: SQValue {
         get {
             return SQValue.Object(self)
         }
+    }
+}
+
+
+// MARK: - SQValue <-> Nil
+extension SQValue: NilLiteralConvertible {
+    public init(nilLiteral: ()) {
+        self = .Null
     }
 }
