@@ -25,6 +25,9 @@
 
 import Foundation
 
+public protocol SquirrelCollection {
+}
+
 public protocol Countable {
     var count: Int { get }
 }

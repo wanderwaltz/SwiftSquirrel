@@ -26,11 +26,6 @@
 import Foundation
 import CSquirrel
 
-// MARK: - SquirrelCollection
-public protocol SquirrelCollection {
-}
-
-
 // MARK: - KeyValueGenerator
 public class KeyValueGenerator<T: SQObject where T: SquirrelCollection, T: SQValueConvertible>: GeneratorType {
     // MARK: - KeyValueGenerator::initializers
