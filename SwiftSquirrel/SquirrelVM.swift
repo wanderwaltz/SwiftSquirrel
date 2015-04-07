@@ -125,7 +125,7 @@ public class SquirrelVM {
             push(SQValue.Int(x))
         }
         
-        private func push(x: Float) {
+        private func push(x: Double) {
             push(SQValue.Float(x))
         }
         
@@ -152,7 +152,7 @@ public class SquirrelVM {
             case OT_FLOAT.value:
                 var value: SQFloat = 0
                 sq_getfloat(vm, SQInteger(position), &value)
-                return .Float(Float(value))
+                return .Float(Double(value))
                 
             case OT_BOOL.value:
                 var value: SQBool = 0
@@ -185,7 +185,7 @@ public class SquirrelVM {
             return self[position].asInt
         }
         
-        private func float(at position: Int) -> Float? {
+        private func float(at position: Int) -> Double? {
             return self[position].asFloat
         }
         

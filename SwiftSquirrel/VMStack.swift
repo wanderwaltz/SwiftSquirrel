@@ -33,7 +33,7 @@ public protocol VMStack: class {
     // MARK: - push functions
     func push(x: SQValue)
     func push(x: Int)
-    func push(x: Float)
+    func push(x: Double)
     func push(x: Bool)
     func push(x: String)
     func push(x: SQObject)
@@ -42,7 +42,7 @@ public protocol VMStack: class {
     subscript(position: Int) -> SQValue { get }
     
     func integer(at position: Int) -> Int?
-    func float(at position: Int) -> Float?
+    func float(at position: Int) -> Double?
     func bool(at position: Int) -> Bool?
     func string(at position: Int) -> String?
     
@@ -60,7 +60,7 @@ public func << (stack: VMStack, x: Int) -> VMStack {
     return stack
 }
 
-public func << (stack: VMStack, x: Float) -> VMStack {
+public func << (stack: VMStack, x: Double) -> VMStack {
     stack.push(x)
     return stack
 }

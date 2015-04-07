@@ -26,34 +26,67 @@
 import Foundation
 import CSquirrel
 
-public enum SQValue: Hashable {
+public enum SQValue: Hashable, FloatLiteralConvertible,
+                               IntegerLiteralConvertible,
+                               BooleanLiteralConvertible,
+                               StringLiteralConvertible {
     
-    case Int(Swift.Int)
-    case Float(Swift.Float)
-    case Bool(Swift.Bool)
-    case String(Swift.String)
+    public typealias IntType = Swift.Int
+    public typealias FloatType = Swift.Double
+    public typealias BoolType = Swift.Bool
+    public typealias StringType = Swift.String
+    
+    case Int(IntType)
+    case Float(FloatType)
+    case Bool(BoolType)
+    case String(StringType)
     case Object(SQObject)
     case Null
     
+    // MARK: - SQValue:literal conversions
+    public init(integerLiteral value: IntType) {
+        self = .Int(value)
+    }
+    
+    public init(floatLiteral value: FloatType) {
+        self = .Float(value)
+    }
+    
+    public init(booleanLiteral value: BoolType) {
+        self = .Bool(value)
+    }
+    
+    public init(stringLiteral value: StringType) {
+        self = .String(value)
+    }
+    
+    public init(extendedGraphemeClusterLiteral value: StringType) {
+        self = .String(value)
+    }
+    
+    public init(unicodeScalarLiteral value: StringType) {
+        self = .String(value)
+    }
+    
     // MARK: - SQValue::conversions
-    public var asFloat: Swift.Float? {
+    public var asFloat: FloatType? {
         get {
             switch (self) {
             case let .Float(value):
                 return value
             case let .Int(value):
-                return Swift.Float(value)
+                return FloatType(value)
             default:
                 return nil
             }
         }
     }
     
-    public var asInt: Swift.Int? {
+    public var asInt: IntType? {
         get {
             switch (self) {
             case let .Float(value):
-                return Swift.Int(value)
+                return IntType(value)
             case let .Int(value):
                 return value
             default:
@@ -62,7 +95,7 @@ public enum SQValue: Hashable {
         }
     }
     
-    public var asBool: Swift.Bool? {
+    public var asBool: BoolType? {
         get {
             switch (self) {
             case let .Bool(value):
@@ -73,7 +106,7 @@ public enum SQValue: Hashable {
         }
     }
     
-    public var asString: Swift.String? {
+    public var asString: StringType? {
         get {
             switch (self) {
             case let .String(value):
@@ -112,7 +145,7 @@ public enum SQValue: Hashable {
     }
     
     // MARK: - SQValue::<Hashable>
-    public var hashValue: Swift.Int {
+    public var hashValue: IntType {
         get {
             switch (self) {
             case let .Int(value):
@@ -148,8 +181,8 @@ public func ==(left: SQValue, right: SQValue) -> Bool {
 public func + (left: SQValue, right: SQValue) -> SQValue {
     switch (left, right) {
     case (.Int(let a), .Int(let b)): return .Int(a+b)
-    case (.Float(let a), .Int(let b)): return .Float(a+Float(b))
-    case (.Int(let a), .Float(let b)): return .Float(Float(a)+b)
+    case (.Float(let a), .Int(let b)): return .Float(a+SQValue.FloatType(b))
+    case (.Int(let a), .Float(let b)): return .Float(SQValue.FloatType(a)+b)
     case (.String(let a), .String(let b)): return .String(a+b)
         
     default:
@@ -161,8 +194,8 @@ public func + (left: SQValue, right: SQValue) -> SQValue {
 public func - (left: SQValue, right: SQValue) -> SQValue {
     switch (left, right) {
     case (.Int(let a), .Int(let b)): return .Int(a-b)
-    case (.Float(let a), .Int(let b)): return .Float(a-Float(b))
-    case (.Int(let a), .Float(let b)): return .Float(Float(a)-b)
+    case (.Float(let a), .Int(let b)): return .Float(a-SQValue.FloatType(b))
+    case (.Int(let a), .Float(let b)): return .Float(SQValue.FloatType(a)-b)
         
     default:
         return .Null
@@ -173,8 +206,8 @@ public func - (left: SQValue, right: SQValue) -> SQValue {
 public func * (left: SQValue, right: SQValue) -> SQValue {
     switch (left, right) {
     case (.Int(let a), .Int(let b)): return .Int(a*b)
-    case (.Float(let a), .Int(let b)): return .Float(a*Float(b))
-    case (.Int(let a), .Float(let b)): return .Float(Float(a)*b)
+    case (.Float(let a), .Int(let b)): return .Float(a*SQValue.FloatType(b))
+    case (.Int(let a), .Float(let b)): return .Float(SQValue.FloatType(a)*b)
         
     default:
         return .Null
@@ -185,8 +218,8 @@ public func * (left: SQValue, right: SQValue) -> SQValue {
 public func / (left: SQValue, right: SQValue) -> SQValue {
     switch (left, right) {
     case (.Int(let a), .Int(let b)): return .Int(a/b)
-    case (.Float(let a), .Int(let b)): return .Float(a/Float(b))
-    case (.Int(let a), .Float(let b)): return .Float(Float(a)/b)
+    case (.Float(let a), .Int(let b)): return .Float(a/SQValue.FloatType(b))
+    case (.Int(let a), .Float(let b)): return .Float(SQValue.FloatType(a)/b)
         
     default:
         return .Null

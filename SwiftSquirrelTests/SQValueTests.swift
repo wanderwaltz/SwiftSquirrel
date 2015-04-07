@@ -30,25 +30,25 @@ import SwiftSquirrel
 class SQValueTests: XCTestCase {
     
     func testThat_IntSQValueCanAddInteger() {
-        let sum = SQValue.Int(1)+SQValue.Int(2)
+        let sum = SQValue.Int(1)+2
         XCTAssertEqual(sum, SQValue.Int(3),
             "Integer SQValue should be able to add integer values")
     }
     
     func testThat_IntSQValueCanAddFloat() {
-        let sum = SQValue.Int(1)+SQValue.Float(2.0)
+        let sum = SQValue.Int(1)+2.0
         XCTAssertEqual(sum, SQValue.Float(3.0),
             "Integer SQValue should be able to add float values")
     }
     
     func testThat_FloatSQValueCanAddInteger() {
-        let sum = SQValue.Int(1)+SQValue.Int(2)
+        let sum = SQValue.Int(1)+2
         XCTAssertEqual(sum, SQValue.Int(3),
             "Integer SQValue should be able to add integer values")
     }
     
     func testThat_FloatSQValueCanAddFloat() {
-        let sum = SQValue.Int(1)+SQValue.Float(2.0)
+        let sum = SQValue.Int(1)+2.0
         XCTAssertEqual(sum, SQValue.Float(3.0),
             "Integer SQValue should be able to add float values")
     }
