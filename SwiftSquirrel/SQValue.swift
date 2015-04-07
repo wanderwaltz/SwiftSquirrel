@@ -29,7 +29,9 @@ import CSquirrel
 public enum SQValue: Hashable, FloatLiteralConvertible,
                                IntegerLiteralConvertible,
                                BooleanLiteralConvertible,
-                               StringLiteralConvertible {
+                               StringLiteralConvertible,
+                               NilLiteralConvertible,
+                               SQValueConvertible {
     
     public typealias IntType = Swift.Int
     public typealias FloatType = Swift.Double
@@ -68,7 +70,17 @@ public enum SQValue: Hashable, FloatLiteralConvertible,
         self = .String(value)
     }
     
+    public init(nilLiteral: ()) {
+        self = .Null
+    }
+    
     // MARK: - SQValue::conversions
+    public var asSQValue: SQValue {
+        get {
+            return self
+        }
+    }
+    
     public var asFloat: FloatType? {
         get {
             switch (self) {
@@ -165,6 +177,7 @@ public enum SQValue: Hashable, FloatLiteralConvertible,
     }
 }
 
+
 // MARK: - SQValue::operators
 public func ==(left: SQValue, right: SQValue) -> Bool {
     switch (left, right) {
@@ -226,3 +239,52 @@ public func / (left: SQValue, right: SQValue) -> SQValue {
     }
 }
 
+
+public protocol SQValueConvertible {
+    var asSQValue: SQValue { get }
+}
+
+// MARK: - SQValue convertibles
+extension Int: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return SQValue.Int(self)
+        }
+    }
+}
+
+
+extension Double: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return SQValue.Float(self)
+        }
+    }
+}
+
+
+extension Bool: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return SQValue.Bool(self)
+        }
+    }
+}
+
+
+extension String: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return SQValue.String(self)
+        }
+    }
+}
+
+
+extension SQObject: SQValueConvertible {
+    public var asSQValue: SQValue {
+        get {
+            return SQValue.Object(self)
+        }
+    }
+}
