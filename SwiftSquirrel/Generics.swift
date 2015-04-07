@@ -34,6 +34,9 @@ internal class Weak<T:AnyObject> {
     weak var value: T?
 }
 
+internal func bindLast<A, B, C>(f: (A, B) -> C, value: B) -> (A) -> C {
+    return { (A) -> C in f(A, value) }
+}
 
 internal func bindLast<A, B, C, D>(f: (A, B, C) -> D, value: C) -> (A, B) -> D {
     return { (A, B) -> D in f(A, B, value) }
