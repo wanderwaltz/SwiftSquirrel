@@ -225,15 +225,6 @@ public class SquirrelVM {
     }
 }
 
-// MARK: - Weak<T>
-private class Weak<T:AnyObject> {
-    init(value: T) {
-        self.value = value
-    }
-    
-    weak var value: T?
-}
-
 infix operator ~ { associativity left precedence 140 }
 prefix operator ~ {}
 
