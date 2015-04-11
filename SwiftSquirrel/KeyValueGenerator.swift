@@ -54,3 +54,25 @@ public class KeyValueGenerator<T: SQObject where T: SquirrelCollection, T: SQVal
     // MARK: - KeyValueGenerator::private
     private let vm: SquirrelVM
 }
+
+
+// MARK: - ArrayGenerator
+public class ArrayGenerator<T: SQObject where T: SquirrelCollection, T: SQValueConvertible>: GeneratorType {
+    // MARK: - ArrayGenerator::initializers
+    init(generator: KeyValueGenerator<T>) {
+        self.generator = generator
+    }
+    
+    // MARK: - ArrayGenerator::<GeneratorType>
+    public func next() -> (Int, SQValue)? {
+        if let (key, value) = generator.next() {
+            if let intKey = key.asInt {
+                return (intKey, value)
+            }
+        }
+        return nil
+    }
+    
+    // MARK: - ArrayGenerator::private
+    private let generator: KeyValueGenerator<T>
+}

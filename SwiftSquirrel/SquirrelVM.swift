@@ -77,6 +77,10 @@ public class SquirrelVM {
     public func generateKeyValuePairs<T: SQObject where T: SquirrelCollection>(collection obj: T) -> KeyValueGenerator<T> {
         return KeyValueGenerator<T>(vm: self, collection: obj)
     }
+    
+    public func generateIndexValuePairs<T: SQObject where T: SquirrelCollection>(collection obj: T) -> ArrayGenerator<T> {
+        return ArrayGenerator(generator: KeyValueGenerator<T>(vm: self, collection: obj))
+    }
 
     // MARK: - SquirrelVM::internal
     internal let vm: HSQUIRRELVM
@@ -111,8 +115,8 @@ public class SquirrelVM {
             operation: bind(sq_newslot, SQBool(SQFalse)))
     }
     
-    internal func setSlot(table: SQTable, key: SQValue, value: SQValue) -> Bool {
-        return collectionSetter(collection: table, key: key, value: value, operation: sq_set)
+    internal func setSlot(collection: SQObject, key: SQValue, value: SQValue) -> Bool {
+        return collectionSetter(collection: collection, key: key, value: value, operation: sq_set)
     }
     
     // MARK: - SquirrelVM::private
