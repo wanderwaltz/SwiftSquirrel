@@ -92,4 +92,26 @@ class SQTableTests: XCTestCase {
             XCTAssertEqual(table.count, i+1, "Setting multiple values should yield corresponding count each time")
         }
     }
+    
+    // MARK: - enumeration tests
+    func testThat_valuesCanBeEnumerated() {
+        var enumerated: [SQValue:SQValue] = [:]
+        
+        let table = SQTable(vm: squirrel)
+        
+        table[123] = "test"
+        table[0.5] = 0.25
+        table["hello"] = false
+        
+        for (key, value) in table {
+            enumerated[key] = value
+        }
+
+        let expected: [SQValue:SQValue] =
+        [.Int(123):.String("test"),
+         .Float(0.5):.Float(0.25),
+         .String("hello"):.Bool(false)]
+        
+        XCTAssertEqual(expected, enumerated, "SQTable should enumerate all key-value pairs")
+    }
 }
