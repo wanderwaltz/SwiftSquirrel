@@ -108,7 +108,7 @@ public class SquirrelVM {
     
     internal func newSlot(table: SQTable, key: SQValue, value: SQValue) -> Bool {
         return collectionSetter(collection: table, key: key, value: value,
-            operation: bindLast(sq_newslot, SQBool(SQFalse)))
+            operation: bind(sq_newslot, SQBool(SQFalse)))
     }
     
     internal func setSlot(table: SQTable, key: SQValue, value: SQValue) -> Bool {
@@ -173,11 +173,11 @@ public class SquirrelVM {
         }
         
         private func array() -> HSQOBJECT {
-            return create(bindLast(sq_newarray, 0))
+            return create(bind(sq_newarray, 0))
         }
         
         private func array(#size: Int) -> HSQOBJECT {
-            return create(bindLast(sq_newarray, SQInteger(size)))
+            return create(bind(sq_newarray, SQInteger(size)))
         }
         
         private func null() -> HSQOBJECT {
