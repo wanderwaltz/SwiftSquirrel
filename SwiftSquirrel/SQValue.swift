@@ -94,6 +94,7 @@ public func ==(left: SQValue, right: SQValue) -> Bool {
     case (.Float(let a), .Float(let b)) where a == b: return true
     case (.Bool(let a), .Bool(let b)) where a == b: return true
     case (.String(let a), .String(let b)) where a == b: return true
+    case (.Object(let a), .Object(let b)) where a == b: return true
     case (.Null, .Null): return true
     default: return false
     }

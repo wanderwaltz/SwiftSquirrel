@@ -186,6 +186,21 @@ public class SquirrelVM {
             return result
         }
         
+        private func equal(left: HSQOBJECT, _ right: HSQOBJECT) -> Bool {
+            return (compare(left, right) == 0)
+        }
+        
+        private func compare(left: HSQOBJECT, _ right: HSQOBJECT) -> Int {
+            let top = sq_gettop(vm)
+            sq_pushobject(vm, left)
+            sq_pushobject(vm, right)
+            
+            let result = sq_cmp(vm)
+            
+            sq_settop(vm, top)
+            
+            return Int(result)
+        }
         
         private func create(creationFunc: (HSQUIRRELVM) -> ()) -> HSQOBJECT {
             var result = null()

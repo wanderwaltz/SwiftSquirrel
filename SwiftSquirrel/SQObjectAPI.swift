@@ -37,4 +37,6 @@ internal protocol SQObjectAPI {
     func array(#size: Int) -> HSQOBJECT
     
     func null() -> HSQOBJECT
+    
+    func equal(left: HSQOBJECT, _ right: HSQOBJECT) -> Bool
 }

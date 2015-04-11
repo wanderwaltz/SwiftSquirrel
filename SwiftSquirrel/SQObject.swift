@@ -26,7 +26,7 @@
 import Foundation
 import CSquirrel
 
-public class SQObject {
+public class SQObject: Equatable {
     // MARK: - initializers
     public init(vm: SquirrelVM) {
         self.vm = vm
@@ -61,4 +61,9 @@ public class SQObject {
             vm.object.retain(&_obj)
         }
     }
+}
+
+
+public func == (left: SQObject, right: SQObject) -> Bool {
+    return (left.vm === right.vm) && (left.vm.object.equal(left._obj, right._obj))
 }
