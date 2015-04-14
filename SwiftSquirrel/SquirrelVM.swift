@@ -35,7 +35,7 @@ public class SquirrelVM {
     public static let DefaultStackSize = 1024
     
     // MARK: - SquirrelVM::properties
-    public let stack: VMStack
+    public let stack: SwiftSquirrel.Stack
     
     public var rootTable: SQTable {
         get {
@@ -205,7 +205,7 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrleVM::private: stack
-    private class Stack: VMStack {
+    private class Stack: SwiftSquirrel.Stack {
         // MARK: - SquirrelVM::Stack::<VMStack>
         private var top: Int {
             get {

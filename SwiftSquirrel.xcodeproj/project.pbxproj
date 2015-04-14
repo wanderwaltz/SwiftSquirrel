@@ -73,7 +73,7 @@
 		5DF869B51AD1AEEA006E9F74 /* sqvm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DF869651AD1AEEA006E9F74 /* sqvm.cpp */; };
 		5DF869B61AD1AEEA006E9F74 /* sqvm.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF869661AD1AEEA006E9F74 /* sqvm.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5DF869B81AD1AF5C006E9F74 /* CSquirrel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DF868F51AD1AED9006E9F74 /* CSquirrel.framework */; };
-		5DF869BC1AD1B07A006E9F74 /* VMStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF869BB1AD1B07A006E9F74 /* VMStack.swift */; };
+		5DF869BC1AD1B07A006E9F74 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF869BB1AD1B07A006E9F74 /* Stack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,7 +172,7 @@
 		5DF869641AD1AEEA006E9F74 /* squtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = squtils.h; sourceTree = "<group>"; };
 		5DF869651AD1AEEA006E9F74 /* sqvm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sqvm.cpp; sourceTree = "<group>"; };
 		5DF869661AD1AEEA006E9F74 /* sqvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqvm.h; sourceTree = "<group>"; };
-		5DF869BB1AD1B07A006E9F74 /* VMStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMStack.swift; sourceTree = "<group>"; };
+		5DF869BB1AD1B07A006E9F74 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,7 +248,7 @@
 				5D008A4E1AD45C5900114834 /* Generics.swift */,
 				5D008A501AD45FA700114834 /* Protocols.swift */,
 				5DF8681E1AD1AB50006E9F74 /* SquirrelVM.swift */,
-				5DF869BB1AD1B07A006E9F74 /* VMStack.swift */,
+				5DF869BB1AD1B07A006E9F74 /* Stack.swift */,
 				5D56C1321AD320E200713157 /* KeyValueGenerator.swift */,
 				5D53B8F71AD1BBD6001228EA /* SQValue.swift */,
 				5DF572551AD2FA05008AA4B9 /* SQObject.swift */,
@@ -608,7 +608,7 @@
 				5D008A4F1AD45C5900114834 /* Generics.swift in Sources */,
 				5DF8681F1AD1AB50006E9F74 /* SquirrelVM.swift in Sources */,
 				5D008A531AD46EDA00114834 /* SQObjectAPI.swift in Sources */,
-				5DF869BC1AD1B07A006E9F74 /* VMStack.swift in Sources */,
+				5DF869BC1AD1B07A006E9F74 /* Stack.swift in Sources */,
 				5D56C1331AD320E200713157 /* KeyValueGenerator.swift in Sources */,
 				5DF5725A1AD2FD45008AA4B9 /* SQTable.swift in Sources */,
 				5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */,

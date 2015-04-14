@@ -25,7 +25,7 @@
 
 import Foundation
 
-public protocol VMStack: class {
+public protocol Stack: class {
     var top: Int { get set }
     
     func pop(count: Int)
@@ -45,12 +45,12 @@ public protocol VMStack: class {
     func table(at position: Int) -> SQTable?
 }
 
-public func << (stack: VMStack, x: SQValue) -> VMStack {
+public func << (stack: Stack, x: SQValue) -> Stack {
     stack.push(x)
     return stack
 }
 
-public func << (stack: VMStack, x: SQValueConvertible) -> VMStack {
+public func << (stack: Stack, x: SQValueConvertible) -> Stack {
     stack.push(x)
     return stack
 }
