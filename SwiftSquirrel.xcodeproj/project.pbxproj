@@ -210,6 +210,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		447C56771ADD50230052E16A /* internal */ = {
+			isa = PBXGroup;
+			children = (
+				5D008A521AD46EDA00114834 /* SQObjectAPI.swift */,
+			);
+			name = internal;
+			sourceTree = "<group>";
+		};
 		5DF866A11AD1A877006E9F74 = {
 			isa = PBXGroup;
 			children = (
@@ -235,11 +243,11 @@
 		5DF866AD1AD1A877006E9F74 /* SwiftSquirrel */ = {
 			isa = PBXGroup;
 			children = (
+				447C56771ADD50230052E16A /* internal */,
 				5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */,
 				5D008A4E1AD45C5900114834 /* Generics.swift */,
 				5D008A501AD45FA700114834 /* Protocols.swift */,
 				5DF8681E1AD1AB50006E9F74 /* SquirrelVM.swift */,
-				5D008A521AD46EDA00114834 /* SQObjectAPI.swift */,
 				5DF869BB1AD1B07A006E9F74 /* VMStack.swift */,
 				5D56C1321AD320E200713157 /* KeyValueGenerator.swift */,
 				5D53B8F71AD1BBD6001228EA /* SQValue.swift */,
