@@ -34,6 +34,7 @@ internal class Weak<T:AnyObject> {
     weak var value: T?
 }
 
+// MARK: - function parameter binding
 internal func bind<A, B, C>(f: (A, B) -> C, value: B) -> (A) -> C {
     return { (A) -> C in f(A, value) }
 }
