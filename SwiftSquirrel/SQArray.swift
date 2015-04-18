@@ -74,3 +74,23 @@ public class SQArray: SQObject, SequenceType, SquirrelCollection {
         return vm.generateIndexValuePairs(collection: self)
     }
 }
+
+
+public func ==<T:SQValueConvertible>(left: SQArray, right: [T]) -> Bool {
+    if left.count != right.count {
+        return false
+    }
+
+    for i in 0..<left.count {
+        if left[i] != right[i].asSQValue {
+            return false
+        }
+    }
+    
+    return true
+}
+
+
+public func ==<T:SQValueConvertible>(left: [T], right: SQArray) -> Bool {
+    return right == left
+}
