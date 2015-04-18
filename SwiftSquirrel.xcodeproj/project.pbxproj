@@ -13,6 +13,7 @@
 		5D4455361AD92EA500F1F2B0 /* SQArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4455351AD92EA500F1F2B0 /* SQArray.swift */; };
 		5D4455381AD930DE00F1F2B0 /* SQArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4455371AD930DE00F1F2B0 /* SQArrayTests.swift */; };
 		5D483F221AE2B866001A6E3B /* SQContainerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D483F211AE2B866001A6E3B /* SQContainerAPI.swift */; };
+		5D483F651AE2C9C6001A6E3B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D483F641AE2C9C6001A6E3B /* Helpers.swift */; };
 		5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F71AD1BBD6001228EA /* SQValue.swift */; };
 		5D53B8FA1AD1CD45001228EA /* SQValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F91AD1CD45001228EA /* SQValueTests.swift */; };
 		5D56C1311AD310BF00713157 /* SQTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56C1301AD310BF00713157 /* SQTableTests.swift */; };
@@ -110,6 +111,7 @@
 		5D4455351AD92EA500F1F2B0 /* SQArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQArray.swift; sourceTree = "<group>"; };
 		5D4455371AD930DE00F1F2B0 /* SQArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQArrayTests.swift; sourceTree = "<group>"; };
 		5D483F211AE2B866001A6E3B /* SQContainerAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQContainerAPI.swift; sourceTree = "<group>"; };
+		5D483F641AE2C9C6001A6E3B /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5D53B8F71AD1BBD6001228EA /* SQValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValue.swift; sourceTree = "<group>"; };
 		5D53B8F91AD1CD45001228EA /* SQValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValueTests.swift; sourceTree = "<group>"; };
 		5D56C1301AD310BF00713157 /* SQTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQTableTests.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				447C56771ADD50230052E16A /* internal */,
 				5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */,
+				5D483F641AE2C9C6001A6E3B /* Helpers.swift */,
 				5D008A4E1AD45C5900114834 /* Generics.swift */,
 				5D56C1321AD320E200713157 /* Generators.swift */,
 				5D008A501AD45FA700114834 /* Protocols.swift */,
@@ -622,6 +625,7 @@
 				5D56C1331AD320E200713157 /* Generators.swift in Sources */,
 				5DF5725A1AD2FD45008AA4B9 /* SQTable.swift in Sources */,
 				5D4455361AD92EA500F1F2B0 /* SQArray.swift in Sources */,
+				5D483F651AE2C9C6001A6E3B /* Helpers.swift in Sources */,
 				5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */,
 				5D008A511AD45FA700114834 /* Protocols.swift in Sources */,
 			);

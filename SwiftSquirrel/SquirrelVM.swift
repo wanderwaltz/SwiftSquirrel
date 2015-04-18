@@ -268,8 +268,7 @@ public class SquirrelVM {
                 sq_pushbool(vm, (value == true) ? SQBool(SQTrue) : SQBool(SQFalse))
                 
             case let .String(value):
-                let cString = (value as NSString).UTF8String
-                let length = strlen(cString)
+                let (length, cString) = value.toSquirrelString()
                 sq_pushstring(vm, cString, SQInteger(length))
                 
             case let .Object(value):
