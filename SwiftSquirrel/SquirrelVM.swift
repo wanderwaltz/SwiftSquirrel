@@ -35,7 +35,7 @@ public class SquirrelVM {
     public static let DefaultStackSize = 1024
     
     // MARK: - SquirrelVM::properties
-    public let stack: SwiftSquirrel.Stack
+    public let stack: Stack
     
     public var rootTable: SQTable {
         get {
@@ -46,7 +46,7 @@ public class SquirrelVM {
     // MARK: - SquirrelVM::initializers
     public init(vm: HSQUIRRELVM) {
         self.vm = vm
-        stack = StackAPI(vm: vm)
+        stack = StackImpl(vm: vm)
         vm ~ self
     }
     
@@ -83,8 +83,8 @@ public class SquirrelVM {
 
     // MARK: - SquirrelVM::internal
     internal let vm: HSQUIRRELVM
-    internal lazy var object: SQObjectAPI = ObjectAPI(vm: self.vm)
-    internal lazy var container: SQContainerAPI = ContainerAPI(vm: self)
+    internal lazy var object: SQObjectAPI = ObjectAPIImpl(vm: self.vm)
+    internal lazy var container: SQContainerAPI = ContainerAPIImpl(vm: self)
     
     
     // MARK: - SquirrelVM::private
@@ -103,7 +103,7 @@ public class SquirrelVM {
     
     
     // MARK: - SquirrelVM::private: container API
-    private class ContainerAPI : SQContainerAPI {
+    private class ContainerAPIImpl : SQContainerAPI {
         init(vm: SquirrelVM) {
             self.vm = vm.vm
             self.stack = vm.stack
@@ -163,7 +163,7 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrelVM::private: object API
-    private class ObjectAPI: SQObjectAPI {
+    private class ObjectAPIImpl: SQObjectAPI {
         init(vm: HSQUIRRELVM) {
             self.vm = vm
         }
@@ -240,7 +240,7 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrleVM::private: stack
-    private class StackAPI: Stack {
+    private class StackImpl: Stack {
         // MARK: - SquirrelVM::StackImpl::<VMStack>
         private var top: Int {
             get {
