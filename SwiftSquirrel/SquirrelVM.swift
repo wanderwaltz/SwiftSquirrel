@@ -309,22 +309,22 @@ public class SquirrelVM {
                 }
                 
             case OT_TABLE.value:
-                var obj: HSQOBJECT = HSQOBJECT()
-                sq_resetobject(&obj)
-                sq_getstackobj(vm, SQInteger(position), &obj)
-                return .Object(SQTable(vm: SquirrelVM.associated(vm: vm), object: obj))
+                return valueWithStackObject(at: position) { SQTable(vm: $0, object: $1) }
                 
             case OT_ARRAY.value:
-                var obj: HSQOBJECT = HSQOBJECT()
-                sq_resetobject(&obj)
-                sq_getstackobj(vm, SQInteger(position), &obj)
-                return .Object(SQArray(vm: SquirrelVM.associated(vm: vm), object: obj))
+                return valueWithStackObject(at: position) { SQArray(vm: $0, object: $1) }
                 
             default:
                 return .Null
             }
         }
         
+        private func valueWithStackObject(at position: Int, constructor:(SquirrelVM, HSQOBJECT) -> SQObject) -> SQValue {
+            var obj: HSQOBJECT = HSQOBJECT()
+            sq_resetobject(&obj)
+            sq_getstackobj(vm, SQInteger(position), &obj)
+            return .Object(constructor(SquirrelVM.associated(vm: vm), obj))
+        }
         
         private func integer(at position: Int) -> Int? {
             return self[position].asInt
