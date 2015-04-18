@@ -314,6 +314,9 @@ public class SquirrelVM {
             case OT_ARRAY.value:
                 return valueWithStackObject(at: position) { SQArray(vm: $0, object: $1) }
                 
+            case OT_CLOSURE.value:
+                return valueWithStackObject(at: position) { SQClosure(vm: $0, object: $1) }
+                
             default:
                 return .Null
             }
@@ -352,6 +355,10 @@ public class SquirrelVM {
         
         private func array(at position: Int) -> SQArray? {
             return self[position].asArray
+        }
+        
+        private func closure(at position: Int) -> SQClosure? {
+            return self[position].asClosure
         }
 
         // MARK: - SquirrelVM::StackImpl::initializers

@@ -308,6 +308,12 @@ extension SQValue {
         }
     }
     
+    public var asClosure: SQClosure? {
+        get {
+            return unwrap(when: OT_CLOSURE.value) { SQClosure(vm: $0, object: $1) }
+        }
+    }
+    
     private func unwrap<T>(when type: UInt32, constructor: (SquirrelVM, HSQOBJECT) -> T) -> T? {
         switch self {
         case let .Object(value):
