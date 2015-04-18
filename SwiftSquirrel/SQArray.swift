@@ -26,7 +26,7 @@
 import Foundation
 import CSquirrel
 
-public class SQArray: SQObject, SequenceType, SquirrelCollection, Countable {
+public class SQArray: SQObject, SequenceType, SquirrelCollection {
     public typealias KeyType = Int
     public typealias ValueType = SQValue
     public typealias Element = (KeyType, ValueType)
