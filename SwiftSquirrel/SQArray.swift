@@ -51,7 +51,7 @@ public class SQArray: SQObject, SequenceType, SquirrelCollection, Countable {
     }
     
     
-    // MARK: - SQTable::properties
+    // MARK: - SQArray::properties
     public var count: Int {
         get {
             return vm.count(self)
