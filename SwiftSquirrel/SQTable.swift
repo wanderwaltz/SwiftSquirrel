@@ -69,3 +69,25 @@ public class SQTable: SQObject, SequenceType, SquirrelCollection {
         return vm.generateKeyValuePairs(collection: self)
     }
 }
+
+
+public func ==<Key:protocol<SQValueConvertible, Hashable>, Value:SQValueConvertible>
+    (left: SQTable, right: [Key:Value]) -> Bool {
+        if left.count != right.count {
+            return false
+        }
+        
+        for (key, value) in right {
+            if left[key] != value.asSQValue {
+                return false
+            }
+        }
+        
+        return true
+}
+
+
+public func ==<Key:protocol<SQValueConvertible, Hashable>, Value:SQValueConvertible>
+    (left: [Key:Value], right: SQTable) -> Bool {
+        return right == left
+}
