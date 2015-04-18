@@ -25,6 +25,52 @@
 
 import Foundation
 
+// MARK: - Box<T>
+public class Box<T> {
+    init(_ value: T) {
+        self.value = value
+    }
+    
+    let value: T
+}
+
+// MARK: - Result<E,R>
+public enum Result<E,R> {
+    case Error(Box<E>)
+    case Success(Box<R>)
+    
+    public static func error(payload: E) -> Result<E,R> {
+        return .Error(Box<E>(payload))
+    }
+    
+    public static func success(result: R) -> Result<E, R> {
+        return .Success(Box<R>(result))
+    }
+    
+    public var error: E? {
+        get {
+            switch self {
+            case let Error(box):
+                return box.value
+            case let Success(box):
+                return nil
+            }
+        }
+    }
+    
+    public var success: R? {
+        get {
+            switch self {
+            case let Error(box):
+                return nil
+            case let Success(box):
+                return box.value
+            }
+        }
+    }
+}
+
+
 // MARK: - Weak<T>
 internal class Weak<T:AnyObject> {
     init(value: T) {
