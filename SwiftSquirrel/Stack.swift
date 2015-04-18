@@ -43,6 +43,7 @@ public protocol Stack: class {
     
     func object(at position: Int) -> SQObject?
     func table(at position: Int) -> SQTable?
+    func array(at position: Int) -> SQArray?
 }
 
 public func << (stack: Stack, x: SQValue) -> Stack {

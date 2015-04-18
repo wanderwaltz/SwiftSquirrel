@@ -314,6 +314,12 @@ public class SquirrelVM {
                 sq_getstackobj(vm, SQInteger(position), &obj)
                 return .Object(SQTable(vm: SquirrelVM.associated(vm: vm), object: obj))
                 
+            case OT_ARRAY.value:
+                var obj: HSQOBJECT = HSQOBJECT()
+                sq_resetobject(&obj)
+                sq_getstackobj(vm, SQInteger(position), &obj)
+                return .Object(SQArray(vm: SquirrelVM.associated(vm: vm), object: obj))
+                
             default:
                 return .Null
             }
@@ -344,6 +350,9 @@ public class SquirrelVM {
             return self[position].asTable
         }
         
+        private func array(at position: Int) -> SQArray? {
+            return self[position].asArray
+        }
 
         // MARK: - SquirrelVM::StackImpl::initializers
         private init(vm: HSQUIRRELVM) {

@@ -311,6 +311,22 @@ extension SQValue {
             }
         }
     }
+    
+    public var asArray: SQArray? {
+        get {
+            switch self {
+            case let .Object(value):
+                if value.obj._type.value == OT_ARRAY.value {
+                    return SQArray(vm: value.vm, object: value.obj)
+                }
+                else {
+                    return nil
+                }
+            default:
+                return nil
+            }
+        }
+    }
 }
 
 extension SQObject: SQValueConvertible {
