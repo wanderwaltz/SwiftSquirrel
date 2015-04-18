@@ -36,11 +36,13 @@ class CompilerTests: XCTestCase {
             "Compiler should return the integer return value of the script as SQValue.Int")
     }
     
+    
     func testThat_compilerReturnsFloatValue() {
         let result = squirrel.compiler.execute(script: "return 1.25")
         XCTAssertEqual(result.success!.asFloat!, 1.25,
             "Compiler should return the float return value of the script as SQValue.Float")
     }
+    
     
     func testThat_compilerReturnsBoolValue() {
         let result = squirrel.compiler.execute(script: "return true")
@@ -48,11 +50,13 @@ class CompilerTests: XCTestCase {
             "Compiler should return the boolean return value of the script as SQValue.Bool")
     }
     
+    
     func testThat_compilerReturnsStringValue() {
         let result = squirrel.compiler.execute(script: "return \"text\"")
         XCTAssertEqual(result.success!.asString!, "text",
             "Compiler should return the string return value of the script as SQValue.String")
     }
+    
     
     func testThat_compilerReturnsTableValue() {
         let result = squirrel.compiler.execute(script: "return { x = 123, y = true, z = 1.25 }")
@@ -60,6 +64,7 @@ class CompilerTests: XCTestCase {
         XCTAssertTrue(result.success!.asTable! == expected,
             "Compiler should return the table return value of the script as SQValue.Object")
     }
+    
     
     func testThat_compilerReturnsArrayValue() {
         let result = squirrel.compiler.execute(script: "return [123, true, 1.25]")
@@ -81,11 +86,13 @@ class CompilerTests: XCTestCase {
         XCTAssertEqual(result.success!, .Null, "void return values should be treated as .Null")
     }
     
+    
     func testThat_compilerWorksWithRootTable() {
         squirrel.compiler.execute(script: "intVar <- 123; stringVar <- \"test\";")
         XCTAssertEqual(squirrel.rootTable["intVar"], 123, "")
         XCTAssertEqual(squirrel.rootTable["stringVar"], "test", "")
     }
+    
     
     func testThat_invalidScriptReturnsError() {
         let result = squirrel.compiler.execute(script: "&*^$!@")
