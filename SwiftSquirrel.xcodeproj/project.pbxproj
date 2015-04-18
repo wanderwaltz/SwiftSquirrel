@@ -16,7 +16,7 @@
 		5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F71AD1BBD6001228EA /* SQValue.swift */; };
 		5D53B8FA1AD1CD45001228EA /* SQValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D53B8F91AD1CD45001228EA /* SQValueTests.swift */; };
 		5D56C1311AD310BF00713157 /* SQTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56C1301AD310BF00713157 /* SQTableTests.swift */; };
-		5D56C1331AD320E200713157 /* KeyValueGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56C1321AD320E200713157 /* KeyValueGenerator.swift */; };
+		5D56C1331AD320E200713157 /* Generators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56C1321AD320E200713157 /* Generators.swift */; };
 		5DF572561AD2FA05008AA4B9 /* SQObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF572551AD2FA05008AA4B9 /* SQObject.swift */; };
 		5DF5725A1AD2FD45008AA4B9 /* SQTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF572591AD2FD45008AA4B9 /* SQTable.swift */; };
 		5DF866B11AD1A877006E9F74 /* SwiftSquirrel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -113,7 +113,7 @@
 		5D53B8F71AD1BBD6001228EA /* SQValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValue.swift; sourceTree = "<group>"; };
 		5D53B8F91AD1CD45001228EA /* SQValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQValueTests.swift; sourceTree = "<group>"; };
 		5D56C1301AD310BF00713157 /* SQTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQTableTests.swift; sourceTree = "<group>"; };
-		5D56C1321AD320E200713157 /* KeyValueGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueGenerator.swift; sourceTree = "<group>"; };
+		5D56C1321AD320E200713157 /* Generators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generators.swift; sourceTree = "<group>"; };
 		5DF572551AD2FA05008AA4B9 /* SQObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQObject.swift; sourceTree = "<group>"; };
 		5DF572591AD2FD45008AA4B9 /* SQTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQTable.swift; sourceTree = "<group>"; };
 		5DF866AB1AD1A877006E9F74 /* SwiftSquirrel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftSquirrel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,10 +253,10 @@
 				447C56771ADD50230052E16A /* internal */,
 				5DF866B01AD1A877006E9F74 /* SwiftSquirrel.h */,
 				5D008A4E1AD45C5900114834 /* Generics.swift */,
+				5D56C1321AD320E200713157 /* Generators.swift */,
 				5D008A501AD45FA700114834 /* Protocols.swift */,
 				5DF8681E1AD1AB50006E9F74 /* SquirrelVM.swift */,
 				5DF869BB1AD1B07A006E9F74 /* Stack.swift */,
-				5D56C1321AD320E200713157 /* KeyValueGenerator.swift */,
 				5D53B8F71AD1BBD6001228EA /* SQValue.swift */,
 				5DF572551AD2FA05008AA4B9 /* SQObject.swift */,
 				5DF572591AD2FD45008AA4B9 /* SQTable.swift */,
@@ -619,7 +619,7 @@
 				5D008A531AD46EDA00114834 /* SQObjectAPI.swift in Sources */,
 				5DF869BC1AD1B07A006E9F74 /* Stack.swift in Sources */,
 				5D483F221AE2B866001A6E3B /* SQContainerAPI.swift in Sources */,
-				5D56C1331AD320E200713157 /* KeyValueGenerator.swift in Sources */,
+				5D56C1331AD320E200713157 /* Generators.swift in Sources */,
 				5DF5725A1AD2FD45008AA4B9 /* SQTable.swift in Sources */,
 				5D4455361AD92EA500F1F2B0 /* SQArray.swift in Sources */,
 				5D53B8F81AD1BBD6001228EA /* SQValue.swift in Sources */,
