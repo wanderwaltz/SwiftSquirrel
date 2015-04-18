@@ -287,7 +287,7 @@ extension String: SQValueConvertible {
 extension SQValue {
     public var asObject: SQObject? {
         get {
-            switch (self) {
+            switch self {
             case let .Object(value):
                 return value
             default:
@@ -298,33 +298,27 @@ extension SQValue {
     
     public var asTable: SQTable? {
         get {
-            switch (self) {
-            case let .Object(value):
-                if value.obj._type.value == OT_TABLE.value {
-                    return SQTable(vm: value.vm, object: value.obj)
-                }
-                else {
-                    return nil
-                }
-            default:
-                return nil
-            }
+            return unwrap(when: OT_TABLE.value) { SQTable(vm: $0, object: $1) }
         }
     }
     
     public var asArray: SQArray? {
         get {
-            switch self {
-            case let .Object(value):
-                if value.obj._type.value == OT_ARRAY.value {
-                    return SQArray(vm: value.vm, object: value.obj)
-                }
-                else {
-                    return nil
-                }
-            default:
+            return unwrap(when: OT_ARRAY.value) { SQArray(vm: $0, object: $1) }
+        }
+    }
+    
+    private func unwrap<T>(when type: UInt32, constructor: (SquirrelVM, HSQOBJECT) -> T) -> T? {
+        switch self {
+        case let .Object(value):
+            if value.obj._type.value == type {
+                return constructor(value.vm, value.obj)
+            }
+            else {
                 return nil
             }
+        default:
+            return nil
         }
     }
 }
