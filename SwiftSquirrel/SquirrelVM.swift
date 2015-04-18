@@ -36,6 +36,7 @@ public class SquirrelVM {
     
     // MARK: - SquirrelVM::properties
     public let stack: Stack
+    public lazy var compiler: Compiler = Compiler(vm: self)
     
     public var rootTable: SQTable {
         get {
