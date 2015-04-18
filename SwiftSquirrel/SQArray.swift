@@ -54,18 +54,18 @@ public class SQArray: SQObject, SequenceType, SquirrelCollection, Countable {
     // MARK: - SQArray::properties
     public var count: Int {
         get {
-            return vm.count(self)
+            return vm.container.count(self)
         }
     }
     
     // MARK: - SQArray::methods
     public subscript (key: Int) -> ValueType {
         get {
-            return vm.getSlot(self, key: key.asSQValue)
+            return vm.container.getSlot(self, key: key.asSQValue)
         }
         
         set(value) {
-            vm.setSlot(self, key: key.asSQValue, value: value)
+            vm.container.setSlot(self, key: key.asSQValue, value: value)
         }
     }
     

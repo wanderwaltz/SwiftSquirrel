@@ -1,8 +1,8 @@
 //
-//  Protocols.swift
+//  SQContainerAPI.swift
 //  SwiftSquirrel
 //
-//  Created by Egor Chiglintsev on 08.04.15.
+//  Created by Egor Chiglintsev on 18.04.15.
 //  Copyright (c) 2015  Egor Chiglintsev
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,10 +24,11 @@
 //  SOFTWARE.
 
 import Foundation
+import CSquirrel
 
-public protocol SquirrelCollection: SQValueConvertible, Countable {
-}
-
-public protocol Countable {
-    var count: Int { get }
+internal protocol SQContainerAPI {
+    func count<T: SquirrelCollection>(object: T) -> Int
+    func getSlot(collection: SquirrelCollection, key: SQValue) -> SQValue
+    func newSlot(table: SquirrelCollection, key: SQValue, value: SQValue) -> Bool
+    func setSlot(collection: SquirrelCollection, key: SQValue, value: SQValue) -> Bool
 }
