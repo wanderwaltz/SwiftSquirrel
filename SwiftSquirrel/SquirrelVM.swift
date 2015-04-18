@@ -46,7 +46,7 @@ public class SquirrelVM {
     // MARK: - SquirrelVM::initializers
     public init(vm: HSQUIRRELVM) {
         self.vm = vm
-        stack = Stack(vm: vm)
+        stack = StackImpl(vm: vm)
         object = ObjectAPI(vm: vm)
         vm ~ self
     }
@@ -224,8 +224,8 @@ public class SquirrelVM {
     }
     
     // MARK: - SquirrleVM::private: stack
-    private class Stack: SwiftSquirrel.Stack {
-        // MARK: - SquirrelVM::Stack::<VMStack>
+    private class StackImpl: Stack {
+        // MARK: - SquirrelVM::StackImpl::<VMStack>
         private var top: Int {
             get {
                 return Int(sq_gettop(vm))
@@ -329,12 +329,12 @@ public class SquirrelVM {
         }
         
 
-        // MARK: - SquirrelVM::Stack::initializers
+        // MARK: - SquirrelVM::StackImpl::initializers
         private init(vm: HSQUIRRELVM) {
             self.vm = vm
         }
         
-        // MARK: - SquirrelVM::Stack::private
+        // MARK: - SquirrelVM::StackImpl::private
         private let vm: HSQUIRRELVM
     }
 }
