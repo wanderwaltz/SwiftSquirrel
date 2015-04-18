@@ -37,7 +37,7 @@ public class SQTable: SQObject, SequenceType, SquirrelCollection {
         self.obj = vm.object.table()
     }
     
-    public override init(vm: SquirrelVM, object obj: HSQOBJECT) {
+    internal override init(vm: SquirrelVM, object obj: HSQOBJECT) {
         super.init(vm: vm, object: obj)
     }
     

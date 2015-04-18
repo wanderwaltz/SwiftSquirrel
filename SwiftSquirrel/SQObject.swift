@@ -33,7 +33,7 @@ public class SQObject: Equatable {
         self.obj = vm.object.null()
     }
     
-    public init(vm: SquirrelVM, object obj: HSQOBJECT) {
+    internal init(vm: SquirrelVM, object obj: HSQOBJECT) {
         self.vm = vm
         self.obj = obj
     }
